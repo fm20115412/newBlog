@@ -1,7 +1,7 @@
 ### 一、[Two Sum题目链接](https://leetcode.com/problems/two-sum/)
 ### 二、思路
 #### a. 暴力解决方法
-暴力法很简单，遍历每个元素$nums[i]$，并查找是否存在一个值$nums[j]$,使得$nums[i]+nums[j] == target$。
+暴力法很简单，遍历每个元素$nums[i]$，并查找是否存在一个值$nums[j]$,使得$nums[i]+nums[j] = target$。
 ```
 var twoSum = function(nums, target) {
     for(let i = 0;i<nums.length;i++){
