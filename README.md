@@ -1,5 +1,7 @@
 # newBlog
 My blog
+### Es6学习笔记：
+[1. Set & Map](./Es6/set&map笔记.md)
 
 ### Leetcode刷题笔记：
 [1. Two Sum](./leetcode刷题笔记/6-PlusOne.md)
