@@ -4,12 +4,13 @@
 [1. Set & Map](./Es6/set&map笔记.md)
 
 ### Leetcode刷题笔记：
-[1. Two Sum](./leetcode刷题笔记/6-PlusOne.md)
+[1. Two Sum](./leetcode刷题笔记/1-PlusOne.md)
 
-[2. Remove Duplicates from Sorted Array](./leetcode刷题笔记/2-RemoveDupEle.md)
+[26. Remove Duplicates from Sorted Array](./leetcode刷题笔记/26-RemoveDupEle.md)
 
-[3. Remove Element](./leetcode刷题笔记/3-RemoveEle.md)
+[27. Remove Element](./leetcode刷题笔记/27-RemoveEle.md)
 
-[4. Search Insert Position](./leetcode刷题笔记/4-SearchInsPos.md)
+[35. Search Insert Position](./leetcode刷题笔记/35-SearchInsPos.md)
 
-[6. Plus One](./leetcode刷题笔记/1-TwoSum.md)
+[66. Plus One](./leetcode刷题笔记/66-TwoSum.md)
+
