@@ -3,7 +3,7 @@
 #### 前提条件
 1. 两个数组均已经排序好
 2. nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素
-#### a. 采用之前Search Insert Position
+#### a. 采用之前Search Insert Position
 首先循环遍历nums2中的每个元素，然后采用[35. Search Insert Position](./leetcode刷题笔记/35-SearchInsPos.md)计算出nums2[i]在nums1中应该插入的位置。(注意，此处计算位置的时候应该考虑到nums1中后面都是0，所以应该将后面的元素排除)。
 1. 如果插入的位置在nums1现有元素之间，则采用Array.splice方法插入之后，需要采用Array.pop将最后一个元素弹出。
 2. 如果插入的位置在nums1现有元素之后，则代表nums2[i]以及其后面的元素均大于nums1中所有的元素，故而将nums2[i]以及其后面的元素移到nums1的后面即可。
