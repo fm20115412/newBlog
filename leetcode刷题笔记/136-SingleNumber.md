@@ -1,7 +1,7 @@
 ### 一、[Single Number题目链接](https://leetcode.com/problems/single-number/)
 ### 二、思路
 #### a. 数学的方法
-$2∗(a+b+c)−(a+a+b+b+c)=c$
+$2*(a+b+c)−(a+a+b+b+c)=c$
 ```
 var singleNumber = function(nums) {
     var set = new Set();
@@ -44,7 +44,7 @@ var singleNumber = function(nums) {
 **空间复杂度**：$O(n)。
 
 #### 3. 异或门
- $A ^ B ^ B = A ^（B ^ B） = A$。两个相同的数进行按位异或运算结果一定为0，一个数与0按位异或结果即为该数本身，所以将数组中所有数按位异或，留下的那个数即是那个single number。
+$A xor B xor B = A xor (B xor B) = A$。两个相同的数进行按位异或运算结果一定为0，一个数与0按位异或结果即为该数本身，所以将数组中所有数按位异或，留下的那个数即是那个single number。
 ```
 var singleNumber = function(nums) {
     let result =nums[0];
