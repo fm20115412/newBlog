@@ -13,5 +13,6 @@
 | 35  | [Search Insert Position](./leetcode刷题笔记/35-SearchInsPos.md) |  Easy   |
 | 66  | [Plus One](./leetcode刷题笔记/66-PlusOne.md) |  Easy   |
 | 88  | [Merge Sorted Array](./leetcode刷题笔记/88-MergeSortedArray.md) |  Easy   |
+| 169  | [Majority Element](./leetcode刷题笔记/169-MajorityElement.md) |  Easy   |
 | 202  | [Happy Number](./leetcode刷题笔记/202-HappyNumber.md) |  Easy   |
-| 290  | [Happy Number](./leetcode刷题笔记/290-WordPattern.md) |  Easy   |
+| 290  | [World Pattern](./leetcode刷题笔记/290-WordPattern.md) |  Easy   |
