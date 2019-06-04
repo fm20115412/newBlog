@@ -18,4 +18,6 @@
 | 169  | [Majority Element](./leetcode刷题笔记/169-MajorityElement.md) |  Easy   |
 | 202  | [Happy Number](./leetcode刷题笔记/202-HappyNumber.md) |  Easy   |
 | 204  | [Count Primes](./leetcode刷题笔记/204-CountPrimes.md) |  Easy   |
+| 217  | [Contains Duplicate](./leetcode刷题笔记/217-ContainsDuplicate.md) |  Easy   |
 | 290  | [World Pattern](./leetcode刷题笔记/290-WordPattern.md) |  Easy   |
+
