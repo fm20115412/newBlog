@@ -18,6 +18,7 @@
 | 136  | [Single Number](./leetcode刷题笔记/136-SingleNumber.md) |  Easy   |
 | 167  | [Two Sum II](./leetcode刷题笔记/167-TwoSumII.md) |  Easy   |
 | 169  | [Majority Element](./leetcode刷题笔记/169-MajorityElement.md) |  Easy   |
+| 189  | [Rotate Array](./leetcode刷题笔记/189-RotateArray.md) |  Easy   |
 | 202  | [Happy Number](./leetcode刷题笔记/202-HappyNumber.md) |  Easy   |
 | 204  | [Count Primes](./leetcode刷题笔记/204-CountPrimes.md) |  Easy   |
 | 217  | [Contains Duplicate](./leetcode刷题笔记/217-ContainsDuplicate.md) |  Easy   |
