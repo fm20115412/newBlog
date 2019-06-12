@@ -23,5 +23,6 @@
 | 204  | [Count Primes](./leetcode刷题笔记/204-CountPrimes.md) |  Easy   |
 | 205  | [Isomorphic Strings](./leetcode刷题笔记/290-WordPattern.md) |  Easy   |
 | 217  | [Contains Duplicate](./leetcode刷题笔记/217-ContainsDuplicate.md) |  Easy   |
+| 242  | [Valid Anagram](./leetcode刷题笔记/242-ValidAnagram.md) |  Easy   |
 | 290  | [World Pattern](./leetcode刷题笔记/290-WordPattern.md) |  Easy   |
 
