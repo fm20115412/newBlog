@@ -3,6 +3,8 @@
 ### Es6学习笔记：
 [1. Set & Map](./Es6/set&map笔记.md)
 
+[2. import&export](./Es6/import&export.md)
+
 ### React & Redux：
 
 ### Leetcode刷题笔记：
@@ -26,3 +28,9 @@
 | 242  | [Valid Anagram](./leetcode刷题笔记/242-ValidAnagram.md) |  Easy   |
 | 290  | [World Pattern](./leetcode刷题笔记/290-WordPattern.md) |  Easy   |
 
+### 开发环境&工具：
+[1. npm安装依赖](./开发环境&工具/npm安装依赖.md)
+
+[2. package-lock.json文件的作用](./开发环境&工具/package-lock.json文件的作用.md)
+
+[3. 从0开始配置webpack](./开发环境&工具/从0开始配置webpack.md)
