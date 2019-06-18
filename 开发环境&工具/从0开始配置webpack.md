@@ -115,5 +115,124 @@ alert('hello world');
 ![npm run build报的warning](./images/2.png)
 运行`npm run build`，`./dist/main.js`文件如下，文件有被压缩，作用域提升等。
 ![npm run build报的warning](./images/3.png)
+
 ### 7. 用babel-loader将>=ES6转化成ES5
-要使用babel-loader，我们需要安装如下依赖：
+**a. 要使用babel-loader，我们需要安装如下依赖：**
+```
+npm i @babel/core babel-loader @babel/preset-env --save-dev
+```
+`babel-loader`：使用 Babel 转换 JavaScript依赖关系的 Webpack 加载器；
+`@babel/core`：即 babel-core，将 ES6 代码转换为 ES5；
+`@babel/preset-env`：即 babel-preset-env，根据您要支持的浏览器，决定使用哪些 transformations / plugins 和 polyfills，例如为旧浏览器提供现代浏览器的新特性。
+
+**b. 创建webpack.config.js和.babelrc文件，并配置babel-loader及babel选项**
+```
+  webpackdemo1
+  |- /dist
+  |- main.js
+  |- package.json
+  |- index.html
+  |- /src
+    |- index.js
++ |- .babelrc
++ |- webpack.config.js
+```
+**.babelrc**
+```
+{
+    "presets": [
+        "@babel/preset-env"
+    ]
+}
+```
+**webpack.config.js**
+```
+module.exports = {
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader"
+                }
+            }
+        ]
+    }
+};
+```
+**c. 现在来测试一下Es6语法**
+在`.src/index.js`里面写一点Es6的语法
+```
+const arr = [1, 2, 3];
+const iAmJavascriptES6 = () => console.log(...arr);
+window.iAmJavascriptES6 = iAmJavascriptES6;
+```
+执行`npm run build`，浏览器打开index.html，可以在控制台执行`iAmJavascriptES6`函数。
+![npm run build报的warning](./images/4.png)
+
+### 8. 构建React
+**a. 安装npm**
+```
+npm i react react-dom --save-dev
+```
+**b. 安装babel-preset-react**
+```
+npm i @babel/preset-react --save-dev
+```
+**c.配置.babelrc**
+```
+{
+    "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react"
+    ]
+}
+```
+**d.配置webpack.config.js**
+```
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader"
+        }
+      }
+    ]
+  }
+};
+```
+**e. 测试react**
+在`.src/index.js`里面写一些react的语法
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+const Hello = () => {
+    return <div>Hello React!</div>;
+};
+
+ReactDOM.render(<Hello />, document.getElementById('app'));
+
+```
+在`index.html`里面新增`id`为`app`的`dom`节点。
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src='./dist/main.js'></script>
+    //这里要把script标签放在div标签的后面，否则执行的时候会div还没有渲染，会报找不到dom节点的错误：Target container is not a DOM element.
+</body>
+</html>
+```
+
