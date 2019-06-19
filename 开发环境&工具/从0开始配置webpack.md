@@ -235,4 +235,152 @@ ReactDOM.render(<Hello />, document.getElementById('app'));
 </body>
 </html>
 ```
+### 9. 安装html插件
+没用 html-webpack-plugin插件之前，我们用一个js文件，需要经过webpack打包之后，手动创建一个html文件，并在html文件中用script标签引用我们之前经过webpack打包好的js文件。
+用了这个插件之后，插件会自动生成html文件并将打包好的js插入文件
 
+**a. 安装依赖**
+```
+npm i html-webpack-plugin html-loader --save-dev
+```
+**b. 配置webpack.config.js**
+```
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+module.exports = {
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader"
+                }
+            },
+            {
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: "html-loader"
+                    }
+                ]
+            }
+        ]
+    },
+    plugins :[
+        new HtmlWebPackPlugin({
+            template : './index.html'
+            //会使用根目录下的index.html作为模板
+        })
+    ]
+};
+```
+**c. 更新根目录下的index.html**
+可以不用引入webpack打包生成的js文件
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+```
+**d. webpack编译**
+```
+npm run dev
+```
+这时会生成`./dist/index.html`，生成的代码如下，可以看到`webpack`会自动向生成的`index.html`里面注入打包的`main.js`。所以以后只访问`./dist/index.html`就好了。
+```
+  webpackdemo1
+  |- /dist
+   |- main.js
++  |- index.html
+  |- package.json
+  |- index.html
+  |- /src
+    |- index.js
+```
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="main.js"></script></body>
+</html>
+```
+### 10. 使用loader处理css和scss
+**a. 安装依赖**
+```
+npm install --save-dev css-loader style-loader sass-loader node-sass  
+```
+**b. 更新webpack.config.js配置**
+```
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+module.exports = {
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader"
+                }
+            },
+            {
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: "html-loader"
+                    }
+                ]
+            },
+            {
+                test: /\.(css|scss)$/,
+                use: ['style-loader', 'css-loader', 'sass-loader']
+            }
+        ]
+    },
+    plugins :[
+        new HtmlWebPackPlugin({
+            template : './index.html'
+        })
+    ]
+};
+```
+**c. 新建./src/index.scss文件，并引入**
+```
+  webpackdemo1
+  |- /dist
+   |- main.js
+   |- index.html
+  |- package.json
+  |- index.html
+  |- /src
+    |- index.js
++   |- index.scss
+```
+./src/index.js中引入`import './index.scss';`
+重新执行`npm run dev`,在浏览器中打开'./dist/index.html'，可见样式已经生效。
+
+### 11. 安装webpack-dev-server
+**a. 安装依赖**
+```
+npm i webpack-dev-server --save-dev
+```
+**b. 更新package.json**
+```
+"start": "webpack-dev-server --mode development --open"
+```
+**c. 运行npm run start**
+可以发现运行该命令后，会在本地开启服务，并自动打开浏览器http://localhost:8080/,并且本地有任何改动，保存之后，浏览器也会自动更新。
