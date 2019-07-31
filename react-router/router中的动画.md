@@ -65,3 +65,4 @@ ReactDOM.render(<App />, rootElement);
 
 [Dynamic transitions with react-router and react-transition-group](https://medium.com/lalilo/dynamic-transitions-with-react-router-and-react-transition-group-69ab795815c9)
 [A shallow dive into React Router v4 Animated Transitions](https://medium.com/@pshrmn/a-shallow-dive-into-react-router-v4-animated-transitions-4b73f634992a)
+[Improve your UI with React Transition Group: A guide with examples](https://blog.logrocket.com/improve-your-ui-with-react-transition-group-999fa35f7cae/)
