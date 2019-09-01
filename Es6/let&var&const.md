@@ -121,3 +121,6 @@ const:
   声明时必须进行初始化
   声明之后不可再赋值
 ```
+
+### 参考文章
+[var vs let vs const in JavaScript](https://tylermcginnis.com/var-let-const/)
