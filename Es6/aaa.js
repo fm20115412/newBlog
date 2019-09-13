@@ -99,3 +99,32 @@ function foo(a) {
     this.a = a;
 }
 var bar = new foo(2); console.log(bar.a); // 2
+
+
+const obj = {
+    id: 1,
+    name: 'zhangsan',
+    age: 18
+}
+
+for (let key in obj) {
+    console.log(key + '---' + obj[key])
+}
+
+
+const obj = {
+    id: 1,
+    name: 'zhangsan',
+    age: 18
+}
+console.log(Object.keys(obj))
+console.log(Object.values(obj))
+
+const obj = {
+    id: 1,
+    name: 'zhangsan',
+    age: 18
+}
+Object.getOwnPropertyNames(obj).forEach(function (key) {
+    console.log(key + '---' + obj[key])
+})
