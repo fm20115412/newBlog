@@ -128,3 +128,49 @@ const obj = {
 Object.getOwnPropertyNames(obj).forEach(function (key) {
     console.log(key + '---' + obj[key])
 })
+
+const add = (a, b) => a + b
+
+const curryAdd = a => b => a + b
+
+function add(x, y) {
+    return x + y;
+}
+
+// 柯里化之前
+function add(x, y) {
+    return x + y;
+}
+
+add(1, 2) // 3
+
+// 柯里化之后
+function addX(y) {
+    return function (x) {
+        return x + y;
+    };
+}
+
+addX(2)(1) // 3
+
+function add(a,b,c,d){
+    return a+b+c+d
+}
+function add(a, b){
+    return a+b
+}
+
+function curry(fn,...args){
+    if (args.length == fn.length){
+        return fn(...args)
+    }else{
+        return function(...args2){
+            return curry(fn,...args,...args2)
+        }
+    }
+}
+addTen = curry(add,10)
+console.log(a1 = addTen(1))
+console.log(a2 = addTen(2))
+console.log(a3 = addTen(3))
+console.log(a4 = addTen(4))
