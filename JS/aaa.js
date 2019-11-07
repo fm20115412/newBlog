@@ -373,3 +373,63 @@ let person = {
 }
 clonePerson = deepClone(person)
 console.log(clonePerson)
+
+
+JSON.parse(JSON.stringify(obj))
+
+
+var cache = [];
+
+function deepClone(src){
+
+}
+
+class DeepClone {
+    constructor(){
+        this.cache = []
+    }
+
+    clone(src) {
+        if (src instanceof Object) {
+            // 如果是已经缓存的对象直接返回
+            for (var i = 0; i < this.cache.length; i++) {
+                if (src == cache[i].src) {
+                    return cache[i].target
+                }
+            }
+
+            var target;
+            if (src instanceof Array) {
+                target = new Array()
+            }
+            if (src instanceof Function) {
+                target = function () {
+                    src.apply(this, arguments)
+                }
+            }
+            if (src instanceof RegExp) {
+                target = new RegExp(src.source, src.flags)
+            }
+            if (src instanceof Date) {
+                target = new Date(src.getTime())
+            }
+
+            target = new Object()
+
+            this.cache.push({
+                src,
+                target
+            })
+
+            for (let key in src) {
+                if (src.hasOwnProperty(key)) {
+                    target[key] = deepClone(src[key])
+                }
+            }
+
+
+            return target
+        }
+        return src;
+    }
+}
