@@ -433,3 +433,46 @@ class DeepClone {
         return src;
     }
 }
+
+function bind (thisContext, ...params1) {
+    var fn = this;
+    function resultFn(...params2) {
+        return fn.call (
+            this instanceof resultFn ? this : thisContext,
+            ...params1,
+            ...params2
+        );
+    }
+    resultFn.prototype = fn.prototype;
+    return resultFn;
+}
+Function.prototype.bind2 = bind;
+function fn(a){
+    this.a = a
+}
+fn.prototype.say = function() {
+    console.log(this.a)
+}
+
+var fn1 = fn.bind2({name:'lucy'},x)
+var obj = new fn1() 
+console.log(obj.a)  // x
+obj.say()   //x
+
+//test
+function bind(thisContext, ...params1) {
+    var fn = this;
+    return function (...params2) {
+        return fn.call(thisContext, ...params1, ...params2);
+    }
+}
+Function.prototype.bind2 = bind;
+function fn(a) {
+    this.a = a
+}
+fn.prototype.say = function () {
+    console.log(this.a)
+}
+
+var fn1 = fn.bind2({ name: 'lucy' }, 'x')
+var obj = new fn1() 

@@ -28,7 +28,7 @@ var result = Car.call(obj)
 ```
 4. 如果构造函数无返回值，或者不是引用类型，则返回新对象；否则为构造函数的返回值。
 ```
-if (typeof(resul   t) == "object"){  
+if (typeof(result) == "object"){  
     return result;  
 } else {  
     return obj;
