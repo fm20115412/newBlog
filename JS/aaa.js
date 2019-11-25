@@ -531,3 +531,13 @@ var promise2 = p1.then(function (result) {
 })
 
 promise2.resolveWith(x)
+
+
+var promise = new Promise((resolve, reject) => {
+    setTimeout(() => { resolve('hello') }, 2000)
+})
+promise.then((result) => {
+    console.log('success : ', result);
+}, (reason) => {
+    console.log('fail : ', reason);
+})
