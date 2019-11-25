@@ -44,6 +44,7 @@ if(a){
         console.log('b')
     }
 } */
+/*
 function foo() {
     console.log(this.a);
 }
@@ -301,7 +302,7 @@ Event.trigger('apple', 3)
 let cache = []
 function deepClone(source) {
     // object类型
-    
+
     if (source instanceof Object) {
         if (cache.indexOf(source) >= 0) {
             return source
@@ -309,17 +310,17 @@ function deepClone(source) {
             cache.push(source)
         }
         // 数组类型
-        if (source instanceof Array){
+        if (source instanceof Array) {
             let target = []
-            for (let key in source){
+            for (let key in source) {
                 target.push(deepClone(source[key]))
             }
             return target
         }
         // 函数类型
-        if(source instanceof Function){
-            let target = function(){
-                return source.call(this,...arguments)
+        if (source instanceof Function) {
+            let target = function () {
+                return source.call(this, ...arguments)
             }
             for (let key in source) {
                 target[key] = deepClone(source[key])
@@ -337,13 +338,13 @@ function deepClone(source) {
 }
 
 let person = {
-    name:'lucy',
-    parents :{
-        father:'john',
-        mother:'mary'
+    name: 'lucy',
+    parents: {
+        father: 'john',
+        mother: 'mary'
     },
-    grades:[90,96,100],
-    sayHello(){
+    grades: [90, 96, 100],
+    sayHello() {
         console.log(`my name is ${this.name}`)
     }
 }
@@ -353,13 +354,13 @@ console.log(clonePerson)
 clonePerson.sayHello()
 
 
-let fn = function(x,y){
-    return x+y
+let fn = function (x, y) {
+    return x + y
 }
 let cloneFn = deepClone(fn)
-console.log(cloneFn(1,2))
+console.log(cloneFn(1, 2))
 
-let arr = [[1,2],[3,4],[5,6,7]]
+let arr = [[1, 2], [3, 4], [5, 6, 7]]
 let cloneArr = deepClone(arr)
 console.log(cloneArr)
 
@@ -380,12 +381,12 @@ JSON.parse(JSON.stringify(obj))
 
 var cache = [];
 
-function deepClone(src){
+function deepClone(src) {
 
 }
 
 class DeepClone {
-    constructor(){
+    constructor() {
         this.cache = []
     }
 
@@ -434,10 +435,10 @@ class DeepClone {
     }
 }
 
-function bind (thisContext, ...params1) {
+function bind(thisContext, ...params1) {
     var fn = this;
     function resultFn(...params2) {
-        return fn.call (
+        return fn.call(
             this instanceof resultFn ? this : thisContext,
             ...params1,
             ...params2
@@ -447,15 +448,15 @@ function bind (thisContext, ...params1) {
     return resultFn;
 }
 Function.prototype.bind2 = bind;
-function fn(a){
+function fn(a) {
     this.a = a
 }
-fn.prototype.say = function() {
+fn.prototype.say = function () {
     console.log(this.a)
 }
 
-var fn1 = fn.bind2({name:'lucy'},x)
-var obj = new fn1() 
+var fn1 = fn.bind2({ name: 'lucy' }, x)
+var obj = new fn1()
 console.log(obj.a)  // x
 obj.say()   //x
 
@@ -475,4 +476,58 @@ fn.prototype.say = function () {
 }
 
 var fn1 = fn.bind2({ name: 'lucy' }, 'x')
-var obj = new fn1() 
+var obj = new fn1()
+*/
+class Promise1 {
+    resolve(result) {
+        if (this.state != 'pending') return;
+        this.state = 'fulfilled'
+        this.callbacks.forEach((handle) => {
+            if (typeof handle[0] == 'function') {
+                setTimeout(() => { handle[0].call('undefined', result) }, 0)
+            }
+        })
+
+    }
+    reject(reason) {
+        if (this.state != 'pending') return;
+        this.state = 'rejected'
+        this.callbacks.forEach((handle) => {
+            if (typeof handle[1] == 'function') {
+                setTimeout(() => { handle[1].call('undefined', reason) }, 0)
+            }
+        })
+    }
+    constructor(fn) {
+        this.state = 'pending'
+        this.callbacks = [];
+        if (!fn || typeof fn !== 'function') {
+            throw Error('构造函数需要接受一个函数')
+        }
+        fn(this.resolve.bind(this), this.reject.bind(this))
+    }
+    then(succeed, fail) {
+        this.callbacks.push([succeed, fail])
+    }
+}
+
+var p1 = new Promise1((resolve, reject) => {
+    setTimeout(() => {
+        resolve(123)
+    }, 0)
+})
+p1.then(function (result) {
+    console.log('succeed1 ')
+}, function (reason) {
+    console.log('fail1', reason)
+})
+
+var promise2 = p1.then(function (result) {
+    console.log('succeed2 ')
+    return 'ok'
+}, function (reason) {
+    console.log('fail2', reason)
+    return 'error'
+})
+
+promise2.resolveWith(x)
