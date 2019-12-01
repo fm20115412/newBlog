@@ -19,25 +19,47 @@ promise.then((result) => {
 ```
 
 ```
+class Thenable {
+    constructor(num) {
+        this.num = num;
+    }
+    then(resolve, reject) {
+        setTimeout(() => resolve(this.num * 2), 0); // (*)
+    }
+}
+
 class Promise1 {
     resolve(result) {
         if (this.state != 'pending') return;
         this.state = 'fulfilled'
-        this.callbacks.forEach((handle) => {
-            if (typeof handle[0] == 'function') {
-                setTimeout(() => { handle[0].call('undefined', result) }, 0)
-            }
-        })
-
+        setTimeout(() => {
+            this.callbacks.forEach((handle) => {
+                if (typeof handle[0] == 'function') {
+                    try {
+                        var res = handle[0].call('undefined', result);
+                        handle[2].resolveWith(res)
+                    } catch (error) {
+                        handle[2].reject(error)
+                    }
+                }
+            })
+        }, 0)
     }
     reject(reason) {
         if (this.state != 'pending') return;
         this.state = 'rejected'
-        this.callbacks.forEach((handle) => {
-            if (typeof handle[1] == 'function') {
-                setTimeout(() => { handle[1].call('undefined', reason) }, 0)
-            }
-        })
+        setTimeout(() => {
+            this.callbacks.forEach((handle) => {
+                if (typeof handle[1] == 'function') {
+                    try {
+                        var res = handle[1].call('undefined', result);
+                        handle[2].resolveWith(res)
+                    } catch (error) {
+                        handle[2].reject(error)
+                    }
+                }
+            })
+        }, 0)
     }
     constructor(fn) {
         this.state = 'pending'
@@ -48,7 +70,32 @@ class Promise1 {
         fn(this.resolve.bind(this), this.reject.bind(this))
     }
     then(succeed, fail) {
-        this.callbacks.push([succeed, fail])
+        var p = new Promise1(() => { })
+        this.callbacks.push([succeed, fail, p])
+        return p;
+    }
+    resolveWith(result) {
+        if (this === result) {
+            this.reject(new TypeError('then的handler返回值异常'))
+        } else if (result instanceof Promise1) {
+            result.then((res) => {
+                this.resolve(res);
+            }, (error) => {
+                this.reject(error);
+            })
+        } else if (result instanceof Object) {
+            if (result.then instanceof Function) {
+                result.then((res) => {
+                    this.resolve(res);
+                }, (err) => {
+                    this.reject(err);
+                })
+            } else {
+                this.resolve(result);
+            }
+        } else {
+            this.resolve(result);
+        }
     }
 }
 
@@ -57,9 +104,10 @@ var p1 = new Promise1((resolve, reject) => {
         resolve(123)
     }, 0)
 })
-p1.then(function (result) {
-    console.log('succeed1 ')
-}, function (reason) {
-    console.log('fail1', reason)
+var thenobj = new Thenable(10);
+p1.then(result => thenobj, reason => {
+    console.log('fail1 ', reason)
+}).then((result) => {
+    console.log('result is ', result)
 })
 ```
