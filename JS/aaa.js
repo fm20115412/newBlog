@@ -541,3 +541,42 @@ promise.then((result) => {
 }, (reason) => {
     console.log('fail : ', reason);
 })
+
+loadScript("/article/promise-chaining/one.js").then(
+    script1 => {
+        loadScript("/article/promise-chaining/two.js").then(
+            script2 => {
+                loadScript("/article/promise-chaining/three.js").then(
+                    script3 => {
+                        // this function has access to variables script1, script2 and script3
+                        one();
+                        two();
+                        three();
+                    });
+            });
+    });
+loadScript("/article/promise-chaining/one.js")
+    .then(script => loadScript("/article/promise-chaining/two.js"))
+    .then(script => loadScript("/article/promise-chaining/three.js"))
+    .then(script => {
+        // scripts are loaded, we can use functions declared there
+        one();
+        two();
+        three();
+    });
+
+async function a() {
+    try {
+        await Promise.reject(1);
+    } catch (error) {
+        console.log('error is ', error);
+    }
+}
+a()
+loadJson('no-such-user.json')
+
+Promise.allSettled([
+    new Promise(resolve => setTimeout(() => resolve(1), 3000)), // 1
+    new Promise((resolve, reject) => setTimeout(() => reject(2), 2000)), // 2
+    new Promise(resolve => setTimeout(() => resolve(3), 1000))  // 3
+]).then(function (result) { console.log(result) });
