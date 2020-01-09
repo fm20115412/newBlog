@@ -32,7 +32,12 @@ const [count, setCount] = React.useState(() => getExpensiveCount())
 //getExpensiveCount()仅在初始渲染时执行一次，以获得初始状态。在以后的组件渲染中，不会再调用getExpensiveCount()，从而跳过昂贵的操作。
 ```
 4. 调用状态更新函数后，React 会重新渲染组件，以使新状态变为当前状态。
-
+5. 声明多个state变量
+```
+const [age, setAge] = useState(42);
+const [fruit, setFruit] = useState('banana');
+const [todos, setTodos] = useState([{ text: '学习 Hook' }]);
+```
 ### 三、useState调用规则
 1. 仅顶层调用 Hook ：不能在循环，条件，嵌套函数等中调用useState()。在多个useState()调用中，渲染之间的调用顺序必须相同。
 2. 仅从React 函数调用 Hook:必须仅在函数组件或自定义钩子内部调用useState()。
