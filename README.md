@@ -13,6 +13,7 @@
 | :---: | :--------------------------------------------------------------------------: | :--------: |
 |   1   |                  [Two Sum](./leetcode刷题笔记/1-TwoSum.md)                   |    Easy    |
 |   7   |          [Reverse Integer](./leetcode刷题笔记/7-ReverseInteger.md)           |    Easy    |
+|   9   |        [Palindrome Number](./leetcode刷题笔记/9-PalindromeNumber.md)         |    Easy    |
 |  26   | [Remove Duplicates from Sorted Array](./leetcode刷题笔记/26-RemoveDupEle.md) |    Easy    |
 |  27   |             [Remove Element](./leetcode刷题笔记/27-RemoveEle.md)             |    Easy    |
 |  35   |       [Search Insert Position](./leetcode刷题笔记/35-SearchInsPos.md)        |    Easy    |
