@@ -22,5 +22,5 @@ const FocusInput = () => {
 }
 ```
 ### 参考文献
-[Introduction to useRef Hook](https://dev.to/dinhhuyams/introduction-to-useref-hook-3m7n)
-[The useRef Hook](https://learn.tylermcginnis.com/courses/613356/lectures/10986143)
+[1. Introduction to useRef Hook](https://dev.to/dinhhuyams/introduction-to-useref-hook-3m7n)
+[2. The useRef Hook](https://learn.tylermcginnis.com/courses/613356/lectures/10986143)
