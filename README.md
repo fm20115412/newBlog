@@ -1,9 +1,9 @@
 # Blog
 
 ### Es6学习笔记：
-[1. Set & Map](./Es6/set&map笔记.md)
+[1. Set & Map](./JS/set&map笔记.md)
 
-[2. import&export](./Es6/import&export.md)
+[2. import&export](./JS/import&export.md)
 
 ### React & Redux：
 
