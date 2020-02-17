@@ -585,3 +585,14 @@ Promise.allSettled([
 const fs = require('fs');
 const s = fs.createReadStream('./data');
 console.log(s);
+
+class App extends Component {
+    state = {
+        count: 0
+    }
+
+    componentDidMount() {
+        this.setState({ count: this.state.count + 1 })
+        console.log(this.state.count) // 0
+    }
+}
