@@ -1,6 +1,6 @@
 # Blog
 
-### Es6学习笔记：
+### JS学习笔记：
 [1. Set & Map](./JS/set&map笔记.md)
 
 [2. import&export](./JS/import&export.md)
@@ -15,6 +15,7 @@
 |   7   |          [Reverse Integer](./leetcode刷题笔记/7-ReverseInteger.md)           |    Easy    |
 |   9   |        [Palindrome Number](./leetcode刷题笔记/9-PalindromeNumber.md)         |    Easy    |
 |  14   |    [Longest Common Prefix](./leetcode刷题笔记/14-LongestCommonPrefix.md)     |    Easy    |
+|  20   |        [Valid Parentheses](./leetcode刷题笔记/20-ValidParentheses.md)        |    Easy    |
 |  26   | [Remove Duplicates from Sorted Array](./leetcode刷题笔记/26-RemoveDupEle.md) |    Easy    |
 |  27   |             [Remove Element](./leetcode刷题笔记/27-RemoveEle.md)             |    Easy    |
 |  35   |       [Search Insert Position](./leetcode刷题笔记/35-SearchInsPos.md)        |    Easy    |
