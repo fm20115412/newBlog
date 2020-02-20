@@ -210,7 +210,6 @@ prototype(Child, Parent);
 Child.prototype.sayAge = function(){
     console.log(this.age);
 }
-
 ```
 **本质：**
 ```
