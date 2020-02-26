@@ -581,7 +581,281 @@ Promise.allSettled([
     new Promise((resolve, reject) => setTimeout(() => reject(2), 2000)), // 2
     new Promise(resolve => setTimeout(() => resolve(3), 1000))  // 3
 ]).then(function (result) { console.log(result) });
-*/
+
 const fs = require('fs');
 const s = fs.createReadStream('./data');
 console.log(s);
+
+class App extends Component {
+    state = {
+        count: 0
+    }
+
+    componentDidMount() {
+        this.setState({ count: this.state.count + 1 })
+        console.log(this.state.count) // 0
+    }
+}
+
+for (var i = 0; i < 10; i++) {
+    (function (i) {
+        setTimeout(() => {
+            console.log(i);
+        }, 1000)
+    })(i)
+}
+
+for (let i = 0; i < 10; i++) {
+    setTimeout(() => {
+        console.log(i);
+    }, 1000)
+}
+
+class Thenable {
+    constructor(num) {
+        this.num = num;
+    }
+    then(resolve, reject) {
+        setTimeout(() => resolve(this.num * 2), 0); // (*)
+    }
+}
+
+var promise = new Promise((resolve, reject) => {
+    setTimeout(() => { resolve('hello') }, 2000)
+})
+promise.then((result) => {
+    console.log('success : ', result);
+}, (reason) => {
+    console.log('fail : ', reason);
+})
+
+class Promise1 {
+    resolve(result) {
+        if (this.state != 'pending') return;
+        this.state = 'fulfilled'
+        setTimeout(() => {
+            this.callbacks.forEach((handle) => {
+                if (typeof handle[0] == 'function') {
+                    try {
+                        var res = handle[0].call('undefined', result);
+                        handle[2].resolveWith(res)
+                    } catch (error) {
+                        handle[2].reject(error)
+                    }
+                }
+            })
+        }, 0)
+    }
+    reject(reason) {
+        if (this.state != 'pending') return;
+        this.state = 'rejected'
+        setTimeout(() => {
+            this.callbacks.forEach((handle) => {
+                if (typeof handle[1] == 'function') {
+                    try {
+                        var res = handle[1].call('undefined', result);
+                        handle[2].resolveWith(res)
+                    } catch (error) {
+                        handle[2].reject(error)
+                    }
+                }
+            })
+        }, 0)
+    }
+    constructor(fn) {
+        this.state = 'pending'
+        this.callbacks = [];
+        if (!fn || typeof fn !== 'function') {
+            throw Error('构造函数需要接受一个函数')
+        }
+        fn(this.resolve.bind(this), this.reject.bind(this))
+    }
+    then(succeed, fail) {
+        var p = new Promise1(() => { })
+        this.callbacks.push([succeed, fail, p])
+        return p;
+    }
+    resolveWith(result) {
+        if (this === result) {
+            this.reject(new TypeError('then的handler返回值异常'))
+        } else if (result instanceof Promise1) {
+            result.then((res) => {
+                this.resolve(res);
+            }, (error) => {
+                this.reject(error);
+            })
+        } else if (result instanceof Object) {
+            if (result.then instanceof Function) {
+                result.then((res) => {
+                    this.resolve(res);
+                }, (err) => {
+                    this.reject(err);
+                })
+            } else {
+                this.resolve(result);
+            }
+        } else {
+            this.resolve(result);
+        }
+    }
+}
+
+var p1 = new Promise1((resolve, reject) => {
+    setTimeout(() => {
+        resolve(123)
+    }, 0)
+})
+var thenobj = new Thenable(10);
+p1.then(result => thenobj, reason => {
+    console.log('fail1 ', reason)
+}).then((result) => {
+    console.log('result is ', result)
+})
+
+*/
+class Promise1 {
+    constructor(fn) {
+        this.state = 'pending'
+        this.callbacks = []
+        if (!fn || typeof fn !== 'Function') {
+            throw new Error('promise的构造必须接受一个函数')
+        }
+        fn(this.resolve.bind(this), this.reject.bind(this))
+    }
+    then(succeed, fail) {
+        /*  then方法也会返回一个promise,且会将第一个promise回调函数(succeed / fail)的返回值作为参数，
+         *  传给返回的promise then方法里面的回调函数。由于第一个promise then方法里的(succeed / fail)是在resolve
+         *   函数里面执行的，所以返回值也只能在那里获取到，因此我们需要将这个新返回的promise 塞到callbacks里面，
+        */
+        let p = new Promise1(() => { })
+        this.callbacks.push([succeed, fail, p])
+        return p
+    }
+    resolve(value) {
+        // 避免调用多次resolve reject
+        if (this.state == 'pending') {
+            /* 
+             * 1. 这里要用setTimeout的原因是：resolve函数可能会先于实例的then方法执行，
+             * 此时若不用setTimeout包裹， 会导致[succeed, fail]还没有放到callbacks里面，
+             * 就要去执行它们。
+             * 2. setTimeout第一个参数要使用箭头函数，否则this会指向window
+             * 3. onFulfilled 和 onRejected 必须被作为函数调用（即没有 this 值）
+            */
+            this.state = 'fulfilled';
+            setTimeout(() => {
+                this.callbacks.forEach((handle) => {
+                    if (typeof handle[0] == 'function') {
+                        /* 1. 在这里我们需要拿到前一个promise.then回调函数返回的结果，并根据结果决定
+                         * 如何处理后一个promise。
+                         * 2. 如果在前一个promise.then方法抛出错误，则后一个promise立即reject
+                        */
+                        try {
+                            let result = handle[0].call(undefined, value)
+                            handle[2].resolveWith(result)
+                        } catch (e) {
+                            handle[2].reject(e)
+                        }
+                    }
+                })
+            }, 0)
+        }
+    }
+    reject(reason) {
+        if (this.state == 'pending') {
+            this.state = 'rejected';
+            setTimeout(() => {
+                this.callbacks.forEach((handle) => {
+                    if (typeof handle[1] == 'function') {
+                        try {
+                            let result = handle[1].call(undefined, reason)
+                            handle[2].resolveWith(result)
+                        } catch (e) {
+                            handle[2].reject(e)
+                        }
+                    }
+                })
+            }, 0)
+        }
+    }
+
+    resolveWith(result) {
+        if (result == this) {
+            // 后一个promise实例本身，会造成环引用，抛出异常。
+            this.reject(new Error('循环引用'))
+        } else if (result instanceof Promise1) {
+            // 新的promise实例，则会根据该实例，决定返回promise的状态
+            result.then((value) => {
+                this.resolve(value)
+            }, (reason) => {
+                this.reject(reason)
+            })
+        } else if (result instanceof Object) {
+            if (result.then && result.then instanceof Function) {
+                // thenable对象，执行其then函数，并根据then函数的执行情况决定返回promise的状态
+                result.then((value) => {
+                    this.resolve(value)
+                }, (reason) => {
+                    this.reject(reason)
+                })
+            } else {
+                // 普通对象，返回的promise直接resolve
+                this.resolve(result)
+            }
+        } else {
+            // 普通值，返回的promise直接resolve
+            this.resolve(result)
+        }
+    }
+}
+
+Promise.all = function (promises) {
+    if (!Array.isArray(promises)) {
+        throw new Error('参数必须是数组')
+    }
+    let result = [];
+    let count = 0;
+    return new Promise((resolve, reject) => {
+        for (let i = 0; i < promises.length; i++) {
+            /* 1. 数组中的每个item并不一定是promise对象，用Promise.resolve(item)将item转化为promise对象
+             * 2. promise是异步执行的，返回是无序的，如果第3个参数先返回值了，则先往result的第3位塞值：
+             * result[2] = res，result的第1位、第2位都是空，result的长度还是为3，直接判断
+             * result.length === promises.length就会有问题。
+            */
+            Promise.resolve(promises[i]).then(value => {
+                result[i] = value
+                count++
+                if (count == promises.length) {
+                    resolve(result)
+                }
+            }, reason => {
+                reject(reason)
+            })
+        }
+    })
+};
+
+Promise.race = function (promises) {
+    if (!Array.isArray(promises)) {
+        throw new Error('参数必须是数组')
+    }
+    return new Promise((resolve, reject) => {
+        for (let i = 0; i < promises.length; i++) {
+            Promise.resolve(promises[i]).then(value => {
+                resolve(value)
+            }, reason => {
+                reject(reason)
+            })
+        }
+    })
+};
+
+Promise.resolve = function (value) {
+    return new Promise((resolve, reject) => {
+        resolve(value)
+    })
+}
+Promise.reject = function (reason) {
+    return new Promise((resolve, reject) => {
+        reject(reason)
+    })
+}
