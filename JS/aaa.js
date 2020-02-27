@@ -711,7 +711,6 @@ p1.then(result => thenobj, reason => {
 }).then((result) => {
     console.log('result is ', result)
 })
-
 */
 class Promise1 {
     constructor(fn) {
@@ -727,6 +726,7 @@ class Promise1 {
          *  传给返回的promise then方法里面的回调函数。由于第一个promise then方法里的(succeed / fail)是在resolve
          *   函数里面执行的，所以返回值也只能在那里获取到，因此我们需要将这个新返回的promise 塞到callbacks里面，
         */
+
         let p = new Promise1(() => { })
         this.callbacks.push([succeed, fail, p])
         return p
@@ -807,7 +807,7 @@ class Promise1 {
         }
     }
 }
-
+/*
 Promise.all = function (promises) {
     if (!Array.isArray(promises)) {
         throw new Error('参数必须是数组')
@@ -816,11 +816,6 @@ Promise.all = function (promises) {
     let count = 0;
     return new Promise((resolve, reject) => {
         for (let i = 0; i < promises.length; i++) {
-            /* 1. 数组中的每个item并不一定是promise对象，用Promise.resolve(item)将item转化为promise对象
-             * 2. promise是异步执行的，返回是无序的，如果第3个参数先返回值了，则先往result的第3位塞值：
-             * result[2] = res，result的第1位、第2位都是空，result的长度还是为3，直接判断
-             * result.length === promises.length就会有问题。
-            */
             Promise.resolve(promises[i]).then(value => {
                 result[i] = value
                 count++
@@ -858,4 +853,74 @@ Promise.reject = function (reason) {
     return new Promise((resolve, reject) => {
         reject(reason)
     })
+} */
+
+function deepTraverse(node) {
+    if (node == null) {
+        return []
+    }
+    let stack = [];
+    let nodeList = [];
+    stack.push(node)
+    while (stack.length) {
+        let item = stack.pop();
+        let children = item.children;
+        nodeList.push(item);
+        for (let i = children.length - 1; i >= 0; i--) {
+            stack.push(children[i])
+        }
+    }
+    return nodeList
+}
+
+let deepTraversal3 = (node) => {
+    let stack = []
+    let nodes = []
+    if (node) {
+        // 推入当前处理的node
+        stack.push(node)
+        while (stack.length) {
+            let item = stack.pop()
+            let children = item.children
+            nodes.push(item)
+            for (let i = children.length - 1; i >= 0; i--) {
+                stack.push(children[i])
+            }
+        }
+    }
+    return nodes
+}
+
+function breadTraverse(node) {
+    if (node == null) {
+        return []
+    }
+    let queue = [];
+    let nodeList = [];
+    queue.push(node)
+    while (queue.length) {
+        let item = queue.shift();
+        let children = item.children;
+        nodeList.push(item);
+        for (let i = 0; i < children.length; i++) {
+            queue.push(children[i])
+        }
+    }
+    return nodeList
+}
+let widthTraversal2 = (node) => {
+    let nodes = []
+    let stack = []
+    if (node) {
+        stack.push(node)
+        while (stack.length) {
+            let item = stack.shift()
+            let children = item.children
+            nodes.push(item)
+            for (let i = 0; i < children.length; i++) {
+                stack.push(children[i])
+            }
+        }
+    }
+    return nodes
 }
