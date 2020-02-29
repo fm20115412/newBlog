@@ -854,7 +854,7 @@ Promise.reject = function (reason) {
         reject(reason)
     })
 } */
-
+/*
 function deepTraverse(node) {
     if (node == null) {
         return []
@@ -923,4 +923,144 @@ let widthTraversal2 = (node) => {
         }
     }
     return nodes
+}
+*/
+function sleep(delay) {
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve, delay)
+    })
+}
+sleep(1000).then(() => {
+    // your code
+})
+
+async function sleep(delay) {
+    await new Promise((resolve, reject) => {
+        setTimeout(resolve, delay)
+    })
+    // your code
+}
+
+function sleep(delay, callback) {
+    setTimeout(callback, delay)
+}
+
+//Generator
+function* sleepGenerator(time) {
+    yield new Promise(function (resolve, reject) {
+        setTimeout(resolve, time);
+    })
+}
+sleepGenerator(1000).next().value.then(() => {
+    // your code
+})
+
+
+Promise.prototype.finally = function (callback) {
+    let P = this.constructor;
+    return this.then(
+        value => P.resolve(callback()).then(() => value),
+        reason => P.resolve(callback()).then(() => { throw reason })
+    );
+};
+
+Promise.resolve('foo').
+    finally(() => 'bar').
+    then(res => console.log(res));
+
+Promise.resolve(1).then(value => value)
+
+Promise.prototype.finally = function (callback) {
+    // this指向调用finally的promise实例
+    // this.constructor 指向promise构造函数
+    let P = this.constructor
+    return this.then(
+        value => P.resolve(callback()).then(() => value),
+        error => P.resolve(callback()).then(() => { throw error })
+    )
+
+
+}
+
+
+
+
+function fn() {
+    console.log('haha');
+    return 2;
+}
+let p1 = Promise.resolve(1)
+
+let p2 = p1.then(value => {
+    return Promise.resolve(fn()).then(() => value)
+}, reason => {
+    return Promise.resolve(fn()).then(() => { throw reason })
+})
+
+p2.catch(reason => console.log('reason is ', reason))
+
+
+
+
+Promise.all = function (arr) {
+    if (!Array.isArray(arr)) {
+        return Promise.reject(new Error('arr is not iterable'))
+    }
+    return new Promise(function (resolve, reject) {
+        let result = [];
+        let count = 0;
+        for (let i = 0; i < arr.length; i++) {
+            Promise.resolve(arr[i]).then(
+                function (value) {
+                    result[i] = value
+                    count++;
+                    if (count == arr.length) {
+                        resolve(result)
+                    }
+                }, function (error) {
+                    reject(error)
+                })
+        }
+    })
+}
+
+Promise.all = function (promises) {
+    return new Promise((resolve, reject) => {
+        if (!Array.isArray(promises)) {
+            reject(new TypeError("argument must be anarray"))
+        }
+        let result = [];
+        let count = 0;
+        for (let i = 0; i < promises.length; i++) {
+            /* 1. 数组中的每个item并不一定是promise对象，用Promise.resolve(item)将item转化为promise对象
+             * 2. promise是异步执行的，返回是无序的，如果第3个参数先返回值了，则先往result的第3位塞值：
+             * result[2] = res，result的第1位、第2位都是空，result的长度还是为3，直接判断
+             * result.length === promises.length就会有问题。
+            */
+            Promise.resolve(promises[i]).then(value => {
+                result[i] = value
+                count++
+                if (count == promises.length) {
+                    resolve(result)
+                }
+            }, reason => {
+                reject(reason)
+            })
+        }
+    })
+};
+
+Promise.race = function (promises) {
+    return new Promise((resolve, reject) => {
+        if (!Array.isArray(promises)) {
+            reject(new TypeError("argument must be anarray"))
+        }
+        for (let i = 0; i < promises.length; i++) {
+            Promise.resolve(promises[i]).then(value => {
+                resolve(result)
+            }, reason => {
+                reject(reason)
+            })
+        }
+    })
 }
