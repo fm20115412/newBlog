@@ -296,6 +296,7 @@ setTimeout3
 8. 最后，假设event loop已经启动好了，那么它将处于poll阶段，那么会先执行check阶段的回调，输出setImmediate。
 9. 进入第二轮循环的timers阶段，输出setTimeout0、setTimeout3。
 
+## 参考
 [Event Loop、计时器、nextTick](https://zhuanlan.zhihu.com/p/34924059)
 [深入理解NodeJS事件循环机制](https://juejin.im/post/5dd24ecce51d453fb903ff37#heading-6)
 [【译】NodeJS事件循环 Part 1](https://zhuanlan.zhihu.com/p/38395184)
