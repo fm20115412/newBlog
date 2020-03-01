@@ -925,6 +925,7 @@ let widthTraversal2 = (node) => {
     return nodes
 }
 */
+/*
 function sleep(delay) {
     return new Promise((resolve, reject) => {
         setTimeout(resolve, delay)
@@ -1024,31 +1025,6 @@ Promise.all = function (arr) {
     })
 }
 
-Promise.all = function (promises) {
-    return new Promise((resolve, reject) => {
-        if (!Array.isArray(promises)) {
-            reject(new TypeError("argument must be anarray"))
-        }
-        let result = [];
-        let count = 0;
-        for (let i = 0; i < promises.length; i++) {
-            /* 1. 数组中的每个item并不一定是promise对象，用Promise.resolve(item)将item转化为promise对象
-             * 2. promise是异步执行的，返回是无序的，如果第3个参数先返回值了，则先往result的第3位塞值：
-             * result[2] = res，result的第1位、第2位都是空，result的长度还是为3，直接判断
-             * result.length === promises.length就会有问题。
-            */
-            Promise.resolve(promises[i]).then(value => {
-                result[i] = value
-                count++
-                if (count == promises.length) {
-                    resolve(result)
-                }
-            }, reason => {
-                reject(reason)
-            })
-        }
-    })
-};
 
 Promise.race = function (promises) {
     return new Promise((resolve, reject) => {
@@ -1063,4 +1039,57 @@ Promise.race = function (promises) {
             })
         }
     })
+}
+*/
+function dfs() {
+    let marked = [];
+    for (let i = 0; i < this.vertices.length; i++) {
+        if (!marked[this.vertices[i]]) {
+            dfsVisit(this.vertices[i])
+        }
+    }
+    function dfsVisit(v) {
+        marked.push(v)
+        let neighbors = this.edges.get(v)
+        for (let j = 0; j < neighbors.length; j++) {
+            if (!marked[neighbors[j]]) {
+                dfsVisit(neighbors[j])
+            }
+        }
+    }
+}
+
+function bfs(v) {
+    let queue = [], marked = [];
+    queue.push(v)
+    while (queue.length > 0) {
+        let current = queue.shift();
+        marked.push(current)
+        let neighbors = this.edges.get(current)
+        for (let i = 0; i < neighbors.length; i++) {
+            if (!marked[neighbors[i]]) {
+                queue.push(neighbors[i])
+            }
+        }
+    }
+}
+
+Graph.prototype.bfs = function (v) {
+    var queue = [], marked = []
+    marked[v] = true
+    queue.push(v) // 添加到队尾
+    while (queue.length > 0) {
+        var s = queue.shift() // 从队首移除
+        if (this.edges.has(s)) {
+            console.log('visited vertex: ', s)
+        }
+        let neighbors = this.edges.get(s)
+        for (let i = 0; i < neighbors.length; i++) {
+            var w = neighbors[i]
+            if (!marked[w]) {
+                marked[w] = true
+                queue.push(w)
+            }
+        }
+    }
 }
