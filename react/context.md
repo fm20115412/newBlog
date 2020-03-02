@@ -32,6 +32,12 @@ export default App;
 `<App />` → `<Menu />` → `<MenuItem />`
 
 当你不想在组件树中通过逐层传递props的方式来传递数据时，可以使用Context来实现跨层级的组件数据传递。
+
+![](./images/5.png)
+使用props传递数据，数据自顶向下。
+![](./images/6.png)
+使用Context，可以跨越组件进行数据传递。
+
 ## api
 ### React.createContext
 ```
