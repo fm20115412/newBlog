@@ -433,12 +433,12 @@ Promise.reject = function (reason) {
 c. Promise.all
 ```
 Promise.all = function (promises) {
-    if (!Array.isArray(promises)) {
-        throw new Error('参数必须是数组')
-    }
-    let result = [];
-    let count = 0;
     return new Promise((resolve, reject) => {
+        if (!Array.isArray(promises)) {
+            reject(new TypeError("argument must be anarray"))
+        }
+        let result = [];
+        let count = 0;
         for (let i = 0; i < promises.length; i++) {
             /* 1. 数组中的每个item并不一定是promise对象，用Promise.resolve(item)将item转化为promise对象
              * 2. promise是异步执行的，返回是无序的，如果第3个参数先返回值了，则先往result的第3位塞值：
@@ -461,17 +461,57 @@ Promise.all = function (promises) {
 d. Promise.race
 ```
 Promise.race = function (promises) {
-    if (!Array.isArray(promises)) {
-        throw new Error('参数必须是数组')
-    }
     return new Promise((resolve, reject) => {
+        if (!Array.isArray(promises)) {
+            reject(new TypeError("argument must be anarray"))
+        }
         for (let i = 0; i < promises.length; i++) {
             Promise.resolve(promises[i]).then(value => {
-                resolve(value)
+                resolve(result)
             }, reason => {
                 reject(reason)
             })
         }
     })
 };
+```
+e. Promise.finally
+finally的特点如下：
+1. 接受一个回调函数作为参数；
+2. 该回调函数不接收任何参数，原来的value或者Error在finally的回调函数获取不到；
+3. 回调函数的执行不影响原Promise的状态；
+4. finally() 会返回一个 Promise，所以你可以使用 .then() / .catch() / .finally() 串联它的返回值。finally() 返回的 Promise 会和它连接到的 Promise 保持相同的 fulfill 条件。
+
+```
+Promise.resolve('foo').
+    finally(() => 'bar').
+    then(res => console.log(res));  //打印foo
+```
+
+实现：
+```
+Promise.prototype.finally = function (callback) {
+    // this指向调用finally的promise实例
+    // this.constructor 指向promise构造函数
+    let P = this.constructor
+    return this.then(
+        /* P.resolve(callback()),会先执行callback函数，然后再返回一个resolved的promise，假设为p1
+         * p1.then()也会返回一个promise对象，且以回调函数返回值决定新的promise的状态
+        */
+        value => P.resolve(callback()).then(() => value),
+        error => P.resolve(callback()).then(() => { throw error })
+    )
+
+    //等价于
+    let p = this.then(function (value) {
+        let p1 = P.resolve(callback())
+        let p2 = p1.then(() => value)
+        return p2;
+    }, function (error) {
+        let p1 = P.resolve(callback())
+        let p2 = p1.then(() => { throw error })
+        return p2;
+    })
+    return p;
+}
 ```

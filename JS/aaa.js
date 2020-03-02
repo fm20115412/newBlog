@@ -854,7 +854,7 @@ Promise.reject = function (reason) {
         reject(reason)
     })
 } */
-
+/*
 function deepTraverse(node) {
     if (node == null) {
         return []
@@ -923,4 +923,173 @@ let widthTraversal2 = (node) => {
         }
     }
     return nodes
+}
+*/
+/*
+function sleep(delay) {
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve, delay)
+    })
+}
+sleep(1000).then(() => {
+    // your code
+})
+
+async function sleep(delay) {
+    await new Promise((resolve, reject) => {
+        setTimeout(resolve, delay)
+    })
+    // your code
+}
+
+function sleep(delay, callback) {
+    setTimeout(callback, delay)
+}
+
+//Generator
+function* sleepGenerator(time) {
+    yield new Promise(function (resolve, reject) {
+        setTimeout(resolve, time);
+    })
+}
+sleepGenerator(1000).next().value.then(() => {
+    // your code
+})
+
+
+Promise.prototype.finally = function (callback) {
+    let P = this.constructor;
+    return this.then(
+        value => P.resolve(callback()).then(() => value),
+        reason => P.resolve(callback()).then(() => { throw reason })
+    );
+};
+
+Promise.resolve('foo').
+    finally(() => 'bar').
+    then(res => console.log(res));
+
+Promise.resolve(1).then(value => value)
+
+Promise.prototype.finally = function (callback) {
+    // this指向调用finally的promise实例
+    // this.constructor 指向promise构造函数
+    let P = this.constructor
+    return this.then(
+        value => P.resolve(callback()).then(() => value),
+        error => P.resolve(callback()).then(() => { throw error })
+    )
+
+
+}
+
+
+
+
+function fn() {
+    console.log('haha');
+    return 2;
+}
+let p1 = Promise.resolve(1)
+
+let p2 = p1.then(value => {
+    return Promise.resolve(fn()).then(() => value)
+}, reason => {
+    return Promise.resolve(fn()).then(() => { throw reason })
+})
+
+p2.catch(reason => console.log('reason is ', reason))
+
+
+
+
+Promise.all = function (arr) {
+    if (!Array.isArray(arr)) {
+        return Promise.reject(new Error('arr is not iterable'))
+    }
+    return new Promise(function (resolve, reject) {
+        let result = [];
+        let count = 0;
+        for (let i = 0; i < arr.length; i++) {
+            Promise.resolve(arr[i]).then(
+                function (value) {
+                    result[i] = value
+                    count++;
+                    if (count == arr.length) {
+                        resolve(result)
+                    }
+                }, function (error) {
+                    reject(error)
+                })
+        }
+    })
+}
+
+
+Promise.race = function (promises) {
+    return new Promise((resolve, reject) => {
+        if (!Array.isArray(promises)) {
+            reject(new TypeError("argument must be anarray"))
+        }
+        for (let i = 0; i < promises.length; i++) {
+            Promise.resolve(promises[i]).then(value => {
+                resolve(result)
+            }, reason => {
+                reject(reason)
+            })
+        }
+    })
+}
+*/
+function dfs() {
+    let marked = [];
+    for (let i = 0; i < this.vertices.length; i++) {
+        if (!marked[this.vertices[i]]) {
+            dfsVisit(this.vertices[i])
+        }
+    }
+    function dfsVisit(v) {
+        marked.push(v)
+        let neighbors = this.edges.get(v)
+        for (let j = 0; j < neighbors.length; j++) {
+            if (!marked[neighbors[j]]) {
+                dfsVisit(neighbors[j])
+            }
+        }
+    }
+}
+
+function bfs(v) {
+    let queue = [], marked = [];
+    queue.push(v)
+    while (queue.length > 0) {
+        let current = queue.shift();
+        marked.push(current)
+        let neighbors = this.edges.get(current)
+        for (let i = 0; i < neighbors.length; i++) {
+            if (!marked[neighbors[i]]) {
+                queue.push(neighbors[i])
+            }
+        }
+    }
+}
+
+Graph.prototype.bfs = function (v) {
+    var queue = [], marked = []
+    marked[v] = true
+    queue.push(v) // 添加到队尾
+    while (queue.length > 0) {
+        var s = queue.shift() // 从队首移除
+        if (this.edges.has(s)) {
+            console.log('visited vertex: ', s)
+        }
+        let neighbors = this.edges.get(s)
+        for (let i = 0; i < neighbors.length; i++) {
+            var w = neighbors[i]
+            if (!marked[w]) {
+                marked[w] = true
+                queue.push(w)
+            }
+        }
+    }
 }
