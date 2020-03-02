@@ -217,6 +217,14 @@ export default App;
    )}
 </LanguageContext.Consumer>
 ```
+## 总结
+使用 Context 的注意点：
+
+- 每个 Context 对象都会返回一个 Provider React 组件
+- 只有当组件所处的树中没有匹配到 Provider 时，其 defaultValue 参数才会生效,默认值为 undefined
+- 多个 Provider 也可以嵌套使用，里层的会覆盖外层的数据 Provider 接收一个 value 属性，传递给消费组件(React 会往上找到最近的 Provider，然后使用它的值)
+- 可以在任何生命周期中访问到，包括 render 函数中
+
 ## 参考文献
 [1. Introduction to React Context API](https://medium.com/@chathuranga94/introduction-to-react-context-api-90f5e4d7a7a9)
 [2. React Context ](https://learn.tylermcginnis.com/courses/502559/lectures/9336930)
