@@ -3,7 +3,15 @@
 
 #### a. 递归法
 ```
-
+var reverseList = function(head) {
+    if(head == null || head.next == null) {
+        return head
+    }
+    let p = reverseList(head.next)
+    head.next.next = head
+    head.next = null;
+    return p;
+};
 ```
 #### b. 迭代法
 ```
