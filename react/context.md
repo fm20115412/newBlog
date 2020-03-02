@@ -213,5 +213,5 @@ export default App;
 ```
 ## 参考文献
 [1. Introduction to React Context API](https://medium.com/@chathuranga94/introduction-to-react-context-api-90f5e4d7a7a9)
-[2. 聊一聊我对 React Context 的理解以及应用](https://www.jianshu.com/p/eba2b76b290b?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation)
-[3. React Context ](https://learn.tylermcginnis.com/courses/502559/lectures/9336930)
+[2. React Context ](https://learn.tylermcginnis.com/courses/502559/lectures/9336930)
+[3. 你可能不知道React.createContext](https://juejin.im/post/5df38e086fb9a0166138fdca)
