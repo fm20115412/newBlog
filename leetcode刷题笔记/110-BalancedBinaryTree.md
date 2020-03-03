@@ -1,0 +1,22 @@
+[TOC]
+## 一、[Balanced Binary Tree](https://leetcode-cn.com/problems/balanced-binary-tree/)
+## 二、思路
+
+解题关键：判断一个节点是否平衡，不止需要判断左右两个子节点的高度差不超过1，并还需要左右子节点也要平衡。
+
+定义方法 getHeight，用于计算任意一个节点的高度：
+
+接下来就是比较每个节点左右子树的高度。在一棵以 r 为根节点的树 T 中，只有每个节点左右子树高度差不大于 1 时，该树才是平衡的。因此可以比较每个节点左右两棵子树的高度差，然后向上递归。
+
+```
+var isBalanced = function(root) {
+    if (root == null) return true;
+    if (Math.abs(getHeight(root.left)-getHeight(root.right)) > 1) return false;
+    return isBalanced(root.left) && isBalanced(root.right);
+};
+function getHeight(root){
+    if(root == null) return 0;
+    return Math.max(getHeight(root.left),getHeight(root.right))+1
+}
+```
+**缺点**：对于每个深度为 d 的节点 p，getHeight(p) 被调用 d 次，因此计算节点的 height 存在大量冗余。
