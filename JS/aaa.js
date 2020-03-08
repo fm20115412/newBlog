@@ -1132,12 +1132,56 @@ for (let node of inorder(tree)) {
 
 function insertSort(nums) {
     let len = nums.length;
-    for (let i = 0; i < len; i++) {
-        let value = nums[i];
-        for (let j = i - 1; j > -1 && nums[j] > value; j--) {
-            nums[j + 1] = nums[j]
+    for (let i = 1; i < len; i++) {
+        let current = nums[i];
+        let j = i - 1;
+        while (j >= 0 && current < nums[j]) {
+            nums[j + 1] = nums[j];
+            j--;
         }
-        nums[j + 1] = value
-
+        nums[j + 1] = current
     }
+    return nums;
+}
+
+function bubbleSort(nums) {
+    let len = nums.length;
+    for (let i = 0; i < len - 1; i++) {
+        for (let j = 1; j < (len - i); j++) {
+            if (nums[j - 1] > nums[j]) {
+                let temp = nums[j - 1];
+                nums[j - 1] = nums[j];
+                nums[j] = temp;
+            }
+        }
+    }
+    return nums
+}
+
+function mergeSort(nums) {
+    if (nums.length == 1) {
+        return nums;
+    }
+    let middle = Math.floor(nums.length / 2);
+    let left = mergeSort(nums.slice(0, middle));
+    let right = mergeSort(nums.slice(middle));
+    return merge(left, right);
+}
+function merge(left, right) {
+    let result = [];
+    let i = 0, j = 0, index = 0;
+    while (i < left.length && j < right.length) {
+        if (left[i] < right[j]) {
+            result[index++] = left[i++];
+        } else {
+            result[index++] = right[j++];
+        }
+    }
+    while (i < left.length) {
+        result[index++] = left[i++];
+    }
+    while (j < right.length) {
+        result[index++] = right[j++];
+    }
+    return result;
 }
