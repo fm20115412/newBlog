@@ -1041,6 +1041,7 @@ Promise.race = function (promises) {
     })
 }
 */
+/*
 function dfs() {
     let marked = [];
     for (let i = 0; i < this.vertices.length; i++) {
@@ -1126,4 +1127,17 @@ let tree = make([[['a'], 'b', ['c']], 'd', [['e'], 'f', ['g']]]);
 var result = [];
 for (let node of inorder(tree)) {
     result.push(node);
+}
+*/
+
+function insertSort(nums) {
+    let len = nums.length;
+    for (let i = 0; i < len; i++) {
+        let value = nums[i];
+        for (let j = i - 1; j > -1 && nums[j] > value; j--) {
+            nums[j + 1] = nums[j]
+        }
+        nums[j + 1] = value
+
+    }
 }
