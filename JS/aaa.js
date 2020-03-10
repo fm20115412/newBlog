@@ -1147,12 +1147,17 @@ function insertSort(nums) {
 function bubbleSort(nums) {
     let len = nums.length;
     for (let i = 0; i < len - 1; i++) {
+        let isSorted = true;
         for (let j = 1; j < (len - i); j++) {
             if (nums[j - 1] > nums[j]) {
                 let temp = nums[j - 1];
                 nums[j - 1] = nums[j];
                 nums[j] = temp;
+                isSorted = false;
             }
+        }
+        if (isSorted) {
+            break;
         }
     }
     return nums
@@ -1184,4 +1189,33 @@ function merge(left, right) {
         result[index++] = right[j++];
     }
     return result;
+}
+
+
+
+
+
+quickSort([4, 2, 6, 3, 8, 7], 0, 5);
+function quickSort(nums, begin, end) {
+    if (begin >= end) {
+        return;
+    }
+    let pivot = partition(nums, begin, end)
+    quickSort(nums, begin, pivot - 1);
+    quickSort(nums, pivot + 1, end)
+}
+function partition(nums, begin, end) {
+    let value = nums[begin]
+    while (begin < end) {
+        while (begin < end && nums[end] >= value) {
+            end--;
+        }
+        nums[begin] = nums[end]
+        while (begin < end && nums[begin] <= value) {
+            begin++;
+        }
+        nums[end] = nums[begin]
+    }
+    nums[begin] = value;
+    return begin;
 }
