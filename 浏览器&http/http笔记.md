@@ -133,3 +133,7 @@ HTTP状态码被分为五大类:
 [1. 关于常用的http请求头以及响应头详解](https://juejin.im/post/5c17d3cd5188250d9e604628)
 [2. 可能是全网最全的http面试答案](https://juejin.im/post/5d032b77e51d45777a126183#heading-6)
 
+视频资料：
+[1. 乾颐堂TCP/IP2017](https://www.youtube.com/watch?v=RgKal3zO8Ac&list=PL17RctH5HKX75cTA2zzp-nVw4JkbbLXrc)
+[2. 乾颐堂WEB协议](https://www.youtube.com/playlist?list=PL17RctH5HKX4FU3-HpPLDvIrKzdVzYkSS)
+
