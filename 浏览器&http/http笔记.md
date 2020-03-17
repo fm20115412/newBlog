@@ -38,40 +38,7 @@ GET /data/info.html HTTP/1.1
 
 #### 请求头
 
-请求头部由关键字/值对组成，每行一对，关键字和值用英文冒号“:”分隔，请求头部通知服务器有关于客户端请求的信息。通常包括三种类型：
-- **请求头部字段** 只有请求才会有的字段
-- **通用头部字段** 既可以出现在请求报文中，也可以出现在响应报文中
-- **实体头部字段** 标识请求体的字段
-
-```java
-Accept: image/webp,image/apng,image/*,*/*;q=0.8
-Accept-Encoding: gzip, deflate, br
-Accept-Language: zh-CN,zh;q=0.9
-Cache-Control: no-cache
-Connection: keep-alive
-Cookie: plus_lsv=f197ee21ffd230fd; plus_cv=1::m:49a3f4a6; MSA_WH=375_667; MSA_PBT=146; MSA_ZOOM=1056; BAIDUID=3CA8D598558396E8A96956264AA050B0:FG=1
-Host: m.baidu.com
-Pragma: no-cache
-Referer: https://www.baidu.com/
-Sec-Fetch-Mode: no-cors
-Sec-Fetch-Site: same-site
-User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1
-```
-常用请求头如下：
-|header|解释|示例|
-| :---: | --- | --- |
-|Host|指定请求的服务器的域名和端口号|Host: m.baidu.com|
-|Accept|指定客户端能够接收的内容类型|Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3|
-|Accept-Encoding|浏览器申明自己接收的编码方法，通常指定压缩方法，是否支持压缩，支持什么压缩方法（gzip，deflate）|Accept-Encoding: gzip, deflate, br|
-|Accept-Language|浏览器可接受的语言|Accept-Language: zh-CN,zh;q=0.9|
-|Cache-Control|指定请求和响应遵循的缓存机制|Cache-Control: no-cache|
-|Connection|表示是否需要持久连接。（HTTP 1.1默认进行持久连接）|Connection: keep-alive|
-|Cookie|Cookie是用来存储一些用户信息以便让服务器辨别用户身份的|Cookie: plus_lsv=f197ee21ffd230fd; plus_cv=1::m:49a3f4a6; MSA_WH=375_667; MSA_PBT=146; MSA_ZOOM=1056; BAIDUID=3CA8D598558396E8A96956264AA050B0:FG=1|
-|Content-Length|以8进制表示的请求体的长度|Content-Length: 348|
-|Content-Type|请求体的MIME类型 （用于POST和PUT请求中）|Content-Type: application/x-www-form-urlencoded	|
-|Date|发送该消息的日期和时间|Date: Dec, 26 Dec 2015 17:30:00 GMT|
-|Referer|当浏览器向web服务器发送请求的时候，一般会带上Referer，告诉服务器我是从哪个页面链接过来的，服务器籍此可以获得一些信息用于处理。|Referer: https://www.baidu.com/|
-|User-Agent|告诉HTTP服务器， 客户端使用的操作系统和浏览器的名称和版本。|User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1|
+请求头部由关键字/值对组成，每行一对，关键字和值用英文冒号“:”分隔，请求头部通知服务器有关于客户端请求的信息。下面头部的字段会详细介绍。
 
 #### 空行
 最后一个请求头部之后是一个空行，通知服务器以下不再有请求头部。
@@ -124,16 +91,70 @@ HTTP状态码被分为五大类:
 |503|Service Unavailable|服务器暂时处于超负荷状态或正在停机维护|
 
 #### 响应头
+响应头部字段是由服务端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息，服务器信息，以及对客户端的附加要求等信息。详细见下面介绍的头部字段。
 
 #### 空行
 最后一个响应头部之后是一个空行，通知客户端以下不再有响应头部。
 #### 响应体
+服务器发送给客户端的内容
+### http头部字段
+- **通用头部字段** 既可以出现在请求报文中，也可以出现在响应报文中；
+- **请求头部字段** 从客户端向服务端发送请求报文使用的头部；
+- **响应头部字段** 从服务端向客户端返回响应时使用的头部；
+- **实体头部字段** 针对请求报文和响应报文的实体部分使用的头部。
+
+#### 通用头部字段
+常用通用头部如下：
+|header|解释|示例|
+| --- | --- | --- |
+|Cache-Control|指定请求和响应遵循的缓存机制|Cache-Control: no-cache|
+|Connection|表示是否需要持久连接。（HTTP 1.1默认进行持久连接）|Connection: keep-alive|
+|Date|创建报文的日期和时间|Date: Dec, 26 Dec 2015 17:30:00 GMT|
+|Transfer-Encoding| 当HTTP对Body进行分块传送时，需要增加下面的头部信息才可以进行分块传送 | Transfer-Encoding: chunked|
+#### 请求头部字段
+常用请求头部如下：
+|header|解释|示例|
+| :---: | --- | --- |
+|Host|指定请求的服务器的域名和端口号|Host: m.baidu.com|
+|Accept|指定客户端能够接收的内容类型|Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3|
+|Accept-Encoding|浏览器申明自己接收的编码方法，通常指定压缩方法，是否支持压缩，支持什么压缩方法（gzip，deflate）|Accept-Encoding: gzip, deflate, br|
+|Accept-Language|浏览器可接受的语言（中文或英文）|Accept-Language: zh-CN,zh;q=0.9|
+|Accept-Charset|表示客户端期望服务器返回的内容的字符集|Accept-Charset: utf8, gbk; q=0.6|
+|Authorization|对于某些需要特殊权限才能访问的资源需要客户端在请求里提供用户名密码的认证信息。它是对WWW-Authenticate的应答。|Authorization: Basic YWRtaW46YWRtaW4xMjM=|
+|Cookie|Cookie是用来存储一些用户信息以便让服务器辨别用户身份的|Cookie: plus_lsv=f197ee21ffd230fd; plus_cv=1::m:49a3f4a6; MSA_WH=375_667; MSA_PBT=146; MSA_ZOOM=1056; BAIDUID=3CA8D598558396E8A96956264AA050B0:FG=1|
+|Referer|当浏览器向web服务器发送请求的时候，一般会带上Referer，告诉服务器我是从哪个页面链接过来的，服务器籍此可以获得一些信息用于处理。|Referer: https://www.baidu.com/|
+|User-Agent|告诉HTTP服务器， 客户端使用的操作系统和浏览器的名称和版本。|User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1|
+#### 响应头部字段
+常用响应头部字段：
+|header|解释|示例|
+| :---: | --- | --- |
+|Location|服务器向客户端发送302跳转的时候，总会携带Location头信息，它的值为目标URL|Location: https://www-temp.example.org/|
+|Server|用于返回服务器相关的软件信息|Server: Apache/2.2.17 (Unix)|
+|Set-Cookie|设置Http Cookie|Set-Cookie: UserID=JohnDoe; Max-Age=3600; Version=1|
+|WWW-Authenticate|WWW-Authenticate是401 Unauthorized错误码返回时必须携带的头，它会告知客户端适用于访问请求URI所指定资源的认证方案|WWW-Authenticate: Basic realm=xxx|
+#### 实体头部字段
+实体首部字段是包含在请求报文和响应报文中的实体部分所使用的头部，用于补充内容更新时间和实体相关的信息，常用头部字段如下：
+
+|header|解释|示例|
+| :---: | --- | --- |
+|Allow|表示资源支持访问的HTTP Method类型。它是服务器对客户端的建议，告知对方请使用Allow中提到的Method来访问资源。|Allow: GET, HEAD, PUT|
+|Content-Length|以8进制表示的请求体的长度|Content-Length: 348|
+|Content-Type|Content-Type是服务器向客户端发送的头，代表内容的媒体类型和编码格式|Content-Type: text/html; charset=utf8|
+|Content-Encoding|服务器告知客户端对实体内容部分的压缩方式|Content-Encoding:gzip|
+|Content-Language|这个头字段内容是对Accept-Language的应答。服务器通过此字段告知客户端返回的Body信息的语言是什么|Content-Language：zh-CN|
+|Expires|服务器使用Expect头来告知对方资源何时失效|Expires: Thu, 01 Dec 1994 16:00:00 GMT|
+|Last-Modified|标记资源的最近修改时间|Last-Modified: Tue, 15 Nov 2010 12:45:26 GMT|
 
 ## 参考文章
 [1. 关于常用的http请求头以及响应头详解](https://juejin.im/post/5c17d3cd5188250d9e604628)
+
 [2. 可能是全网最全的http面试答案](https://juejin.im/post/5d032b77e51d45777a126183#heading-6)
 
+[3. 鲜为人知的HTTP协议头字段详解大全「原创」](https://juejin.im/post/5ab341e06fb9a028c6759ce0#heading-19)
+
 视频资料：
+
 [1. 乾颐堂TCP/IP2017](https://www.youtube.com/watch?v=RgKal3zO8Ac&list=PL17RctH5HKX75cTA2zzp-nVw4JkbbLXrc)
+
 [2. 乾颐堂WEB协议](https://www.youtube.com/playlist?list=PL17RctH5HKX4FU3-HpPLDvIrKzdVzYkSS)
 
