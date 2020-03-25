@@ -90,3 +90,4 @@ HTTP2 还在一定程度上改变了传统的“请求 - 应答”工作模式�
 [1. 白话http队头阻塞](https://cloud.tencent.com/developer/article/1509279)
 [2. HTTP/2 101 (Chrome Dev Summit 2015)](https://www.youtube.com/watch?v=r5oT_2ndjms)
 [3. http协议-http2.0原理详细分析](https://www.huaijiujia.com/2018/06/30/http%E5%8D%8F%E8%AE%AE-http2-0%E5%8E%9F%E7%90%86%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/)
+[4. 解密 HTTP/2 与 HTTP/3 的新特性](https://www.infoq.cn/article/kU4OkqR8vH123a8dLCCJ)
