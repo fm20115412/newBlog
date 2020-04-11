@@ -80,20 +80,28 @@ app.listen(3000);
 ```
 // 客户端
 let clockDiv = document.getElementById('clock')
+let num = 10;
 function send() {
     let xhr = new XMLHttpRequest()
     xhr.open('GET', '/clock', true)
     xhr.timeout = 2000 // 超时时间，单位是毫秒
     xhr.onreadystatechange = function () {
+        console.log('xhr.readyState ', xhr.readyState);
+        console.log('xhr.status ', xhr.status);
         if (xhr.readyState == 4) {
             if (xhr.status == 200) {
                 //如果返回成功了，则显示结果
                 clockDiv.innerHTML = xhr.responseText
+                console.log(xhr.responseText);
             }
-            send() //不管成功还是失败都会发下一次请求
+            if (num > 0) {
+                send();
+                num--
+            }
         }
     }
     xhr.ontimeout = function () {
+        console.log('time out');
         send()
     }
     xhr.send()
@@ -101,6 +109,27 @@ function send() {
 send()
 
 // 服务端同上
+const koa = require('koa');
+const router = require('koa-router')();
+const server = require('koa-static');
+const app = new koa();
+
+router.get('/clock', async ctx => {
+    let random = Math.random();
+    if (random < 0.5) {
+        ctx.body = new Date().toLocaleString();
+    } else {
+        await new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve();
+            }, 3000);
+        })
+        ctx.body = new Date().toLocaleString();
+    }
+});
+app.use(server('.'))
+app.use(router.routes());
+app.listen(3000);
 ```
 ### iframe流
 
