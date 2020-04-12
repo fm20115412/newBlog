@@ -80,58 +80,80 @@ app.listen(3000);
 ```
 // 客户端
 let clockDiv = document.getElementById('clock')
-let num = 10;
-function send() {
-    let xhr = new XMLHttpRequest()
-    xhr.open('GET', '/clock', true)
-    xhr.timeout = 2000 // 超时时间，单位是毫秒
-    xhr.onreadystatechange = function () {
-        console.log('xhr.readyState ', xhr.readyState);
-        console.log('xhr.status ', xhr.status);
-        if (xhr.readyState == 4) {
-            if (xhr.status == 200) {
-                //如果返回成功了，则显示结果
-                clockDiv.innerHTML = xhr.responseText
-                console.log(xhr.responseText);
+        function send() {
+            let xhr = new XMLHttpRequest()
+            xhr.open('GET', '/clock', true)
+            xhr.timeout = 4000 // 超时时间，单位是毫秒
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        //如果返回成功了，则显示结果
+                        clockDiv.innerHTML = xhr.responseText
+                    }
+                    send();
+                }
             }
-            if (num > 0) {
-                send();
-                num--
+            xhr.ontimeout = function () {
+                console.log('time out');
+                send()
             }
+            xhr.send()
         }
-    }
-    xhr.ontimeout = function () {
-        console.log('time out');
         send()
-    }
-    xhr.send()
-}
-send()
 
-// 服务端同上
+// 服务端
 const koa = require('koa');
 const router = require('koa-router')();
 const server = require('koa-static');
 const app = new koa();
 
 router.get('/clock', async ctx => {
-    let random = Math.random();
-    if (random < 0.5) {
-        ctx.body = new Date().toLocaleString();
-    } else {
-        await new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve();
-            }, 3000);
-        })
-        ctx.body = new Date().toLocaleString();
-    }
+    await new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        }, 3000);
+    })
+    ctx.body = new Date().toLocaleString();
 });
 app.use(server('.'))
 app.use(router.routes());
-app.listen(3000);
+app.listen(3000); 
 ```
 ### iframe流
+iframe流方式是在页面中插入一个隐藏的iframe，利用其src属性在服务器和客户端之间创建一条长连接，服务器向iframe传输数据（通常是HTML，内有负责插入信息的javascript），来实时更新页面。
+- 优点：消息能够实时到达；浏览器兼容好
+- 缺点：服务器维护一个长连接会增加开销；IE、chrome、Firefox会显示加载没有完成，图标会不停旋转。
+![](./images/31.png)
+```
+// 客户端代码
+<body>
+    <div id="clock"></div>
+    <iframe src="/clock" style="display:none"></iframe>
+    <script>
+        // 将iframe从浏览器上移除，可以断开连接
+        setTimeout(function () {
+            let iframe = document.querySelector('iframe');
+            document.body.removeChild(iframe);
+        }, 5000)
+    </script>
+</body>
 
+// 服务端代码
+let express = require('express')
+let app = express()
+app.use(express.static(__dirname))
+app.get('/clock', function(req, res) {
+  setInterval(function() {
+    let date = new Date().toLocaleString()
+    res.write(`
+       <script type="text/javascript">
+         parent.document.getElementById('clock').innerHTML = "${date}";//改变父窗口dom元素
+       </script>
+     `)
+  }, 1000)
+})
+app.listen(3000)
+```
+上述代码中，客户端只请求一次，然而服务端却是源源不断向客户端发送数据，这样服务器维护一个长连接会增加开销。
 ### WebSocket
 参考 [WebSocket](./WebSocket.md)
