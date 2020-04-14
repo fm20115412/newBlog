@@ -88,7 +88,7 @@ alert('hello world');
 **c.测试效果**
 在浏览器打开这个index.html，可以看到页面弹出hello world了。此时文件的url是`file:///Users/fengmin01/code/webpackdemo1/index.html`。
 ### 6. production and development mode
-如果仔细观察，会发现，上述执行`npm run build`时，控制台会报如下错误：
+如果仔细观察，会发现，上述执行`npm run build`时，控制台会报如下warning：
 ![npm run build报的warning](./images/1.png)
 该warning大致含义为：'mode' 选项还未设置。**webpack将会把该值设置为'production'**。将 'mode' 选项设置为 'development' 或 'production'，来启用环境默认值。
 

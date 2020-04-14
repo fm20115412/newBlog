@@ -58,7 +58,7 @@ npm install –-save-dev @babel/preset-es2015
 ```
 先执行`transform-decorators-legacy`，在执行`transform-class-properties`。
 
-重要的时，preset 的顺序是 颠倒的。如下设置：
+重要的是，preset 的顺序是 颠倒的。如下设置：
 ```
 {
   "presets": ["es2015", "react", "stage-2"]
@@ -66,8 +66,51 @@ npm install –-save-dev @babel/preset-es2015
 ```
 将按如下顺序执行：`stage-2`、`react` 然后是 `es2015`。
 
+### 配置方式
+我们需要一个配置文件来告诉babel如何工作，要怎么去编译，编译哪些内容，配置文件的方式有以下几种：
+- 在package.json中设置babel字段。
+这种方式不用创建文件，package.json加入babel的配置信息就行。
+```
+//package.json
+{
+   "name":"babel-test",
+   "version":"1.0.0",
+   "devDependencies": {
+       "@babel/core":"^7.4.5",
+       "@babel/cli":"^7.4.4",
+       "@babel/preset-env":"^7.4.5"
+   }
+   "babel": {
+       "presets": ["@babel/preset-env"]
+   }
+}
+```
+- .babelrc文件或.babelrc.js
+
+.babelrc和.babelrc.js是同一种配置方式，只是文件格式不同，一个是json文件，一个是js文件。这两个配置文件是针对文件夹的，即该配置文件所在的文件夹包括子文件夹都会应用此配置文件的设置，而且下层配置文件会覆盖上层配置文件，通过此种方式可以给不同的目录设置不同的规则。
+```
+// .babelrc
+{
+    "presets": ["@babel/preset-env"]
+}
+
+// .babelrc.js
+module.exports = {
+    presets: ['@babel/preset-env']
+};
+```
+- babel.config.js文件
+
+babel.config.js虽然写法和.babelrc.js一样，但是babel.config.js是针对整个项目，一个项目只有一个，且放在项目根目录。
+
+> 注意1：.babelrc文件放置在项目根目录和babel.config.js效果一致，如果两种类型的配置文件都存在，.babelrc会覆盖babel.config.js的配置。
+
+> 注意2：在package.json里面写配置还是创建配置文件都没有什么区别，看个人习惯。
+
+
 ### 参考文献
 [How to use ES6 with Babel and webpack](https://blog.jakoblind.no/babel-webpack-es6/)
 [What is babel-preset-env and why do I need it?](https://blog.jakoblind.no/babel-preset-env/)
 [babel-preset-env使用指南](https://www.cnblogs.com/chyingp/p/understanding-babel-preset-env.html)
+[Babel快速上手使用指南](https://juejin.im/post/5cf45f9f5188254032204df1#heading-8)
 
