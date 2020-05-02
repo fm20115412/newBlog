@@ -12,7 +12,8 @@ module.exports = {
         index: './lib/index.tsx'
     },
     output:{
-        path:p.resolve(__dirname,'dist')
+        path:p.resolve(__dirname,'dist'),
+        libraryTarget: 'umd'
     },
     mode:'development',
     module: {
@@ -59,7 +60,8 @@ module.exports = {
         index: './lib/index.tsx'
     },
     output:{
-        path:p.resolve(__dirname,'dist')
+        path:p.resolve(__dirname,'dist'),
+        libraryTarget: 'umd'
     },
     mode:'development',
     module: {
@@ -196,7 +198,8 @@ module.exports = {
         index: './lib/index.tsx'
     },
     output: {
-        path: p.resolve(__dirname, 'dist')
+        path: p.resolve(__dirname, 'dist'),
+        libraryTarget: 'umd'
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx']
