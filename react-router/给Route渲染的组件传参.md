@@ -5,7 +5,7 @@
 
 > “When you use the component props, the router uses React.createElement to create a new React element from the given component. That means if you provide an inline function to the component attribute, you would create a new component every render. This results in the existing component unmounting and the new component mounting instead of just updating the existing component.”
 ### code
-```
+```js
 <Route
   path='/dashboard'
   render={(props) => <Dashboard {...props} isAuthed={true} />}

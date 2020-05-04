@@ -120,7 +120,7 @@ function AuthExample() {
 const ListItemLink = ({ to, ...rest }) => (
   <Route
     path={to}
-    render={({ match }) => {
+    children={({ match }) => {
       console.log(match);
       return <li className={match ? "active" : ""}>
       <Link to={to} {...rest}>
