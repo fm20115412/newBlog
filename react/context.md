@@ -43,15 +43,20 @@ export default App;
 ```
 const MyContext = React.createContext(defaultValue);
 ```
-创建一个context对象。组件会向组件所处的树中距离最近的那个Provider进行匹配context。
-
-当组件所处的树没有匹配到Provider (不使用Provider组件) 时，defaultValue参数才会生效。
-
 context 对象有两个属性，分别是 Provider 与 Consumer，可以通过解构得到：
 ```
 const { Provider, Consumer } = MyContext;
 
 ```
+- Provider allows us to “declare the data that we want available throughout our component tree”.
+
+- Consumer allows “any component in the component tree that needs that data to be able to subscribe to it”.
+
+创建一个context对象。组件会向组件所处的树中距离最近的那个Provider进行匹配context。
+
+当组件所处的树没有匹配到Provider (不使用Provider组件) 时，defaultValue参数才会生效。
+
+
 ### Context.Provider
 每个 Context 对象都会返回一个 Provider React 组件，它允许消费组件订阅 context 的变化。
 
