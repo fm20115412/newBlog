@@ -43,3 +43,6 @@
 
 - 利于SEO优化
 服务端渲染出的页面有助于搜索引擎识别页面内容，有利于SEO, 所谓SEO，指的是利用搜索引擎的规则提高网站在有关搜索引擎内的自然排名。现在的搜索引擎爬虫一般是全文分析的模式，分析内容涵盖了一个网站主要3个部分的内容:文本、多媒体(主要是图片)和外部链接，通过这些来判断网站的类型和主题。对于客户端渲染来说，搜索引擎并不能收录到 ajax 爬取数据之后然后再动态 js 渲染出来的页面。而服务端渲染的页面代码都可以在源代码中看到，这有助于搜索引擎识别。
+
+### 参考资料
+[Server-Side Rendering with React, Redux, and React-Router](https://itnext.io/server-side-rendering-with-react-redux-and-react-router-fa5b67d4965e)
