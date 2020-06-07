@@ -1219,3 +1219,12 @@ function partition(nums, begin, end) {
     nums[begin] = value;
     return begin;
 }
+
+export const fetchWeather = (cityCode) => {
+    return (dispatch, getState) => {
+        dispatch({
+            type: 'weather_fetch_started'
+        })
+    }
+}
+
