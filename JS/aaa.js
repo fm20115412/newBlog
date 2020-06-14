@@ -1228,3 +1228,177 @@ export const fetchWeather = (cityCode) => {
     }
 }
 
+
+
+class DeepClone {
+
+    constructor() {
+        this.cache = []
+    }
+
+    clone(src) {
+        if (src instanceof Object) {
+            // 如果是已经缓存的对象直接返回
+            for (var i = 0; i < this.cache.length; i++) {
+                if (src == this.cache[i].src) {
+                    return this.cache[i].target
+                }
+            }
+
+            var target = new Object()
+
+            if (src instanceof Array) {
+                target = new Array()
+            }
+
+            if (src instanceof Function) {
+                target = function () {
+                    return src.apply(this, arguments)
+                }
+            }
+
+            if (src instanceof RegExp) {
+                target = new RegExp(src.source, src.flags)
+            }
+
+            if (src instanceof Date) {
+                target = new Date(src)
+            }
+
+            this.cache.push({
+                src,
+                target
+            })
+
+            for (let key in src) {
+                if (src.hasOwnProperty(key)) {
+                    target[key] = this.clone(src[key])
+                }
+            }
+            return target
+        }
+        return src;
+    }
+}
+
+var cloner = new DeepClone()
+var a = {
+    arr: [1, 2, 3, { key: '123' }],//数组测试
+};
+a.self = a;//循环引用测试
+a.common1 = { name: 'bbb' };
+a.common2 = a.common1;//相同引用测试
+
+aa = cloner.clone(a)
+aa.common1.name = 'ccc'
+console.log('aa is ', aa)
+
+class DeepClone {
+
+    constructor() {
+        this.cache = []
+    }
+
+    clone(src) {
+        if (src instanceof Object) {
+            // 如果是已经缓存的对象直接返回
+            for (var i = 0; i < this.cache.length; i++) {
+                if (src == this.cache[i].src) {
+                    return this.cache[i].target
+                }
+            }
+
+            var target = new Object()
+
+            if (src instanceof Array) {
+                target = new Array()
+            }
+
+            if (src instanceof Function) {
+                target = function () {
+                    return src.apply(this, arguments)
+                }
+            }
+
+            if (src instanceof RegExp) {
+                target = new RegExp(src.source, src.flags)
+            }
+
+            if (src instanceof Date) {
+                target = new Date(src)
+            }
+
+            this.cache.push({
+                src,
+                target
+            })
+
+            for (let key in src) {
+                if (src.hasOwnProperty(key)) {
+                    target[key] = this.clone(src[key])
+                }
+            }
+            return target
+        }
+        return src;
+    }
+}
+
+var cloner = new DeepClone()
+var a = {
+    arr: [1, 2, 3, { key: '123' }],//数组测试
+};
+a.self = a;//循环引用测试
+a.common1 = { name: 'bbb' };
+a.common2 = a.common1;//相同引用测试
+
+aa = cloner.clone(a)
+aa.common1.name = 'ccc'
+console.log('aa is ', aa)
+
+
+class clone {
+    constructor() {
+        this.cache = [];
+    }
+    cloner(src) {
+        if (src instanceof Object) {
+            // 同一引用
+            for (let i = 0; i < this.cache.length; i++) {
+                if (src == this.cache[i].src) {
+                    return this.cache[i].target
+                }
+            }
+            let target = {}
+            // 数组
+            if (src instanceof Array) {
+                target = [];
+            }
+            // 函数
+            if (src instanceof Function) {
+                target = function () {
+                    return src.apply(this, arguments)
+                }
+            }
+            // 正则
+            if (src instanceof RegExp) {
+                target = new RegExp(src.source, src.flags)
+            }
+            // date
+            if (src instanceof Date) {
+                target = new Date(src);
+            }
+            this.cache.push({
+                src,
+                target
+            })
+            for (let key in src) {
+                if (src.hasOwnProperty(key)) {
+                    target[key] = this.cloner(src[key])
+                }
+            }
+            return target
+        }
+        return src;
+    }
+}
