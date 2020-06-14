@@ -252,7 +252,7 @@ var heartCheck = {
     }
     //心跳检测
     var heartCheck = {
-        timeout: 60000,//60ms
+        timeout: 60000,//60s
         timeoutObj: null,
         serverTimeoutObj: null,
         reset: function(){
