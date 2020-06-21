@@ -231,15 +231,14 @@ nextTick1
 nextTick3
 nextTick2
 resolved
-timeout2
 timeout resolved
+timeout2
 ```
 解析：
 1. 执行timers阶段的回调，输出同步代码`timeout0`，将第一个promise的回调放入微任务队列的promise队列里，执行第二个promise的执行器，并将setTimeout的回调放入下一轮循环的timers阶段。将两个process.nextTick回调放入微任务队列里的process.nextTick队列，输出`sync`，将最后一个setTimeout的回调放入下一个循环的timers阶段。
 2. timers阶段执行完毕，会在进入下一个阶段之前执行完所有的微任务队列，由于process.nextTick比promise具有更高的优先级，因此会首先执行第一个process.nextTick回调，输出
 `nextTick1`,并将第三个process.nextTick的回调放入队列中，然后执行第二个process.nextTick的回调，输出`nextTick3`,然后执行第三个process.nextTick的回调，输出`nextTick2`，接下来执行第一个promise的回调，输出`resolved`。
-3. 接下来进入第二轮事件循环的timers阶段，将第二个promise resolve，并将其回调放入微任务队列的promise队列，接下来执行 第二个setTimeout的回调，输出`timeout2`,最后，再进入下一个阶段之前执行第二个promise的的回调，输出`timeout resolved`。
-
+1. 接下来进入第二轮事件循环的timers阶段，将第二个promise resolve，并将其回调放入微任务队列的promise队列，timers阶段函数执行完毕，就立刻检查微任务promise队列，发现其不为空，故执行输出`timeout resolved`,最后，执行第二个`setTimeout`的回调，输出`timeout2`。
 
 **综合demo2**
 
