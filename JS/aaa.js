@@ -1402,3 +1402,36 @@ class clone {
         return src;
     }
 }
+
+
+function throttle(fn,delay){
+    var last=0,now,context,args,timer;
+    return function(){
+        context = this;
+        args = arguments;
+        now = +new Date();
+        if (now - last > delay){
+            if(timer){
+                clearTimeout(timer);
+                timer = null;
+            }
+            last = now
+            fn.apply(context,arguments);
+        } else if(!timer){
+            timer = setTimeout(function(){
+                last = +new Date();
+                timer = null;
+                fn.apply(context, arguments);
+            },delay)
+        }
+    }
+}
+
+function fn(a){
+    for (var i = 0; i < a.length; i++) {
+        if (a[i] == 3) {
+            return 'done'
+        }
+        console.log(a[i])
+    }
+}
