@@ -181,3 +181,29 @@ Event.listen('apple', function (num) {
 
 Event.trigger('apple', 3)
 ```
+## 构造函数模式
+```
+function Person(name, age){
+  this.name = name;
+  this.age = age;
+}
+Person.prototype.sayName = function(){
+  return this.name;
+};
+var student = new Person("lucy", 18);
+console.log(student);
+```
+## 工厂模式
+```
+function createPerson(opts){
+     var person = {
+       name: opts.name||'kitty'
+     };
+     person.sayName: function(){
+       console.log(this.name);
+     }
+     return person;
+   }
+   var p1 = createPerson({name:'lucy'});
+   var p2 = createPerson({name: 'lily'});
+```
