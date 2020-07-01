@@ -1404,34 +1404,48 @@ class clone {
 }
 
 
-function throttle(fn,delay){
-    var last=0,now,context,args,timer;
-    return function(){
+function throttle(fn, delay) {
+    var last = 0, now, context, args, timer;
+    return function () {
         context = this;
         args = arguments;
         now = +new Date();
-        if (now - last > delay){
-            if(timer){
+        if (now - last > delay) {
+            if (timer) {
                 clearTimeout(timer);
                 timer = null;
             }
             last = now
-            fn.apply(context,arguments);
-        } else if(!timer){
-            timer = setTimeout(function(){
+            fn.apply(context, arguments);
+        } else if (!timer) {
+            timer = setTimeout(function () {
                 last = +new Date();
                 timer = null;
                 fn.apply(context, arguments);
-            },delay)
+            }, delay)
         }
     }
 }
 
-function fn(a){
+function fn(a) {
     for (var i = 0; i < a.length; i++) {
         if (a[i] == 3) {
             return 'done'
         }
         console.log(a[i])
+    }
+}
+function debounce(func, wait) {
+    let timeout;
+    return function () {
+        let context = this;
+        let args = arguments;
+        if (!timeout) {
+            func.apply(context, args)
+        }
+        if (timeout) clearTimeout(timeout)
+        timeout = setTimeout(function () {
+            func.apply(context, args)
+        }, wait)
     }
 }
