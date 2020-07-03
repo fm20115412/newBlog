@@ -1449,3 +1449,13 @@ function debounce(func, wait) {
         }, wait)
     }
 }
+
+function shuffle(nums) {
+    for (var i = nums.length - 1; i >= 0; i--) {
+        var randomIndex = Math.floor(Math.random() * (i + 1));
+        var temp = nums[i];
+        nums[i] = nums[randomIndex];
+        nums[randomIndex] = temp;
+    }
+    return nums;
+}
