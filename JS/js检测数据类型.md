@@ -57,7 +57,7 @@ console.log(fn instanceof Object)// true
 
 对于特殊的数据类型`null`和`undefined`，他们的所属类是`Null`和`Undefined`，但是浏览器把这两个类保护起来了，不允许我们在外面访问使用。
 
-### Object.prototypr.toString.call()
+### Object.prototype.toString.call()
 `toString`是`Object`原型对象上的一个方法，该方法默认返回其调用者的具体类型，更严格的讲，是 `toString`运行时`this`指向的对象类型, 返回的类型格式为`[object,xxx]`,`xxx`是具体的数据类型，其中包括：`String,Number,Boolean,Undefined,Null,Function,Date,Array,RegExp,Error,HTMLDocument`,... 基本上所有对象的类型都可以通过这个方法获取到。
 ```
 Object.prototype.toString.call('') ;   // [object String]
