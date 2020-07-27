@@ -13,9 +13,10 @@ var reverse = function(x) {
 缺点：提交记录上的性能较差
 #### b. 取余法
 为了便于解释，我们假设 result 是正数。
-(1). 如果 $temp = result⋅10+pop$ 导致溢出，那么一定有 $result ≥ edge$
-(2). 如果$result>edge$，那么 $temp=result⋅10+pop$ 一定会溢出。
-(3). 如果$result==edge$，那么$pop>7$，$temp=result⋅10+pop$就会溢出。
+(1). 题目中数值范围为 $[-Math.pow(2,31) , Math.pow(2,31)  − 1]$，我们令$edge =  parseInt(Math.pow(2,31)/10);$
+(2). 如果 $temp = result * 10+pop$ 导致溢出，那么一定有 $result ≥ edge$
+(3). 如果$result>edge$，那么 $temp=result * 10+pop$ 一定会溢出。
+(4). 如果$result==edge$，那么$pop>7$，$temp=result * 10+pop$就会溢出。
 当result为负时可以应用类似的逻辑。
 ```
 var reverse = function(x) {
