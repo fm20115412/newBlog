@@ -458,7 +458,47 @@ Promise.all = function (promises) {
     })
 };
 ```
-d. Promise.race
+d. Promise.allSettled
+```javascript
+Promise.allSettled = Promise.allSettled || function(promises) {
+    return new Promise(function(resolve, reject) {
+        if (!Array.isArray(promises)) {
+            return reject(
+                new TypeError("arguments must be an array")
+            );
+        }
+        let count = 0;
+        const len = promises.length;
+        // 统计所有的promise结果并最后返回
+        const result = new Array(len);
+        for (let i = 0; i < len; i++) {
+            Promise.resolve(promises[i]).then(
+                function(value) {
+                    count++;
+                    result[i] = {
+                        status:'fullfilled',
+                        value
+                    };
+                    if (count == len) {
+                        return resolve(result);
+                    }
+                },
+                function(reason) {
+                    count++;
+                    result[i] = {
+                        status:'rejected',
+                        reason
+                    };
+                    if (count == len) {
+                        return resolve(result);
+                    }
+                }
+            );
+        }
+    });
+};
+```
+e. Promise.race
 ```
 Promise.race = function (promises) {
     return new Promise((resolve, reject) => {
@@ -475,7 +515,7 @@ Promise.race = function (promises) {
     })
 };
 ```
-e. Promise.finally
+f. Promise.finally
 finally的特点如下：
 1. 接受一个回调函数作为参数；
 2. 该回调函数不接收任何参数，原来的value或者Error在finally的回调函数获取不到；
