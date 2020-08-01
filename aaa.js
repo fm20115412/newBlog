@@ -1508,3 +1508,25 @@ String.prototype.substr = function (start, len) {
     return str;
 }
 'abbcde'.indexOf('bc');
+
+
+function instanceof1 (obj, fn){
+    while(obj){
+        if(obj.__proto__ == fn.prototype){
+            return true;
+        }
+        obj = obj.__proto__;
+    }
+    return false;
+}
+
+function flatten(arr, result = []) {
+    for (let item of arr) {
+        if (Array.isArray(item)) {
+            flatten(item, result)
+        } else {
+            result.push(item)
+        }
+    }
+    return result;
+}

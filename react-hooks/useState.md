@@ -55,3 +55,73 @@ const setLoading = (loading) => {
 ### 三、useState调用规则
 1. 仅顶层调用 Hook ：不能在循环，条件，嵌套函数等中调用useState()。在多个useState()调用中，渲染之间的调用顺序必须相同。
 2. 仅从React 函数调用 Hook:必须仅在函数组件或自定义钩子内部调用useState()。
+### 四、useState实现原理
+```javascript
+let _state = [];
+let index = 0;
+function myUseState(initstate) {
+  let currentIndex = index;
+  console.log("currentIndex ", index);
+  console.log("_state is ", _state);
+  index++;
+  _state[currentIndex] =
+    _state[currentIndex] === undefined ? initstate : _state[currentIndex];
+  function setState(newState) {
+    _state[currentIndex] = newState;
+    render();
+  }
+  return [_state[currentIndex], setState];
+}
+function render() {
+  index = 0;
+  ReactDOM.render(<App />,rootElement);
+}
+```
+
+```javascript
+import React from "react";
+import ReactDOM from "react-dom";
+import "./styles.css";
+
+const rootElement = document.getElementById("root");
+let _state = [];
+let index = 0;
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  rootElement
+);
+
+function myUseState(initstate) {
+  let currentIndex = index;
+  console.log("currentIndex ", index);
+  console.log("_state is ", _state);
+  index++;
+  _state[currentIndex] =
+    _state[currentIndex] === undefined ? initstate : _state[currentIndex];
+  function setState(newState) {
+    _state[currentIndex] = newState;
+    render();
+  }
+  return [_state[currentIndex], setState];
+}
+function render() {
+  index = 0;
+  ReactDOM.render(<App />,rootElement);
+}
+function App() {
+  const [n, setN] = myUseState(0);
+  const [m, setM] = myUseState(0);
+  return (
+    <div className="App">
+      <div>n is : {n}</div>
+      <button onClick={() => {setN(n + 1);}}> +1 </button>
+      <div>m is : {m}</div>
+      <button onClick={() => {setM(m + 1);}}> +1 </button>
+    </div>
+  );
+}
+
+```
+
